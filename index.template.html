@@ -13,10 +13,11 @@
   src:url(data:font/woff2;base64,{{PLEX500}}) format('woff2');}
 
 /* ============ TOKENS ============ */
+/* Always cream/light by design — intentionally does not follow OS dark mode. */
 :root{
   --bg:#FAF7F3; --bg-raised:#F8EEF2;
   --text:#211E1B; --text-muted:#6B6459; --text-faint:#78716A;
-  --border:#E4DCD1; --border-strong:#D2C7B8;
+  --border:#EAD9DE; --border-strong:#DDC2CE;
   --accent:#B5416F; --accent-ink:#8F2F56;
   --blush:#F6DCE6; --blush-strong:#F0C4D8;
   --display:'Fraunces',Georgia,serif;
@@ -24,29 +25,6 @@
   --mono:'IBM Plex Mono','SFMono-Regular',Consolas,monospace;
   --ease:cubic-bezier(.16,1,.3,1);
   --ease-bounce:cubic-bezier(.34,1.56,.64,1);
-}
-@media (prefers-color-scheme: dark){
-  :root{
-    --bg:#1C1A18; --bg-raised:#2A2024;
-    --text:#F3EFE9; --text-muted:#A79E90; --text-faint:#94897A;
-    --border:#39352F; --border-strong:#48423A;
-    --accent:#F2A0C4; --accent-ink:#F7BFDA;
-    --blush:#3A2530; --blush-strong:#4A2E3B;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#1C1A18; --bg-raised:#2A2024;
-  --text:#F3EFE9; --text-muted:#A79E90; --text-faint:#94897A;
-  --border:#39352F; --border-strong:#48423A;
-  --accent:#F2A0C4; --accent-ink:#F7BFDA;
-  --blush:#3A2530; --blush-strong:#4A2E3B;
-}
-:root[data-theme="light"]{
-  --bg:#FAF7F3; --bg-raised:#F8EEF2;
-  --text:#211E1B; --text-muted:#6B6459; --text-faint:#78716A;
-  --border:#E4DCD1; --border-strong:#D2C7B8;
-  --accent:#B5416F; --accent-ink:#8F2F56;
-  --blush:#F6DCE6; --blush-strong:#F0C4D8;
 }
 
 /* ============ BASE ============ */
