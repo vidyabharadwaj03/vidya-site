@@ -156,6 +156,16 @@ details[open] > .idx-body{grid-template-rows:1fr;}
   .idx-body-inner .in{padding-left:2rem;}
 }
 
+/* ============ BRANCH (nested mini-experiences within a row) ============ */
+.branch{margin-top:18px; border-top:1px solid var(--border); max-width:64ch;}
+.branch-item{padding:16px 0 16px 18px; border-bottom:1px solid var(--border); border-left:1px solid var(--border-strong);}
+.branch-item-head{display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+.branch-item-title{font-family:var(--display); font-weight:600; font-size:.98rem; color:var(--text);}
+.branch-item-date{font-family:var(--mono); font-size:.72rem; color:var(--text-faint); white-space:nowrap;}
+.branch-item p{margin-top:8px; font-size:.9rem; color:var(--text-muted); line-height:1.6;}
+.branch-item p + p{margin-top:10px;}
+@media (max-width:640px){ .branch-item{padding-left:14px;} }
+
 /* ============ MEDIA LIST ============ */
 .media-list{margin-top:32px; border-top:1px solid var(--border);}
 .media-row{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:6px 20px; padding:16px 0; border-bottom:1px solid var(--border);}
@@ -339,16 +349,22 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
       detail:'Engineered a dual-axis solar tracker, simulated weather and performance conditions, and conducted a techno-economic analysis of solar-grid integration using power-line communication. Won first place, was featured through ComEd, and included a 20-page technical paper and video presentation.' }
   ];
 
-  var DLAB_PROJECTS = [
-    { name:'Virtual Reality Project', date:'',
-      overview:'A client-facing VR experience built with Unity and AWS GameLift.',
-      tags:['UIUC','Unity','AWS GameLift','Virtual Reality','Cloud Infrastructure','Technical Leadership'],
-      detail:'Designed an immersive environment and coordinated multiplayer, cloud-connected functionality — helping a student engineering team move from a broad concept to a working prototype, as an Engineering Manager at the Disruption Lab.' },
-    { name:'Large Language Model Chat Project', date:'',
-      overview:'A conversational application exploring how LLMs could support practical user interactions.',
-      tags:['UIUC','LLaMA 2','Conversational AI','Large Language Models','Prototyping','Product Strategy'],
-      detail:'Experimented with LLaMA 2 and related conversational AI workflows to prototype a practical chat experience for a client, as an Engineering Manager at the Disruption Lab.' }
-  ];
+  var DLAB_PROJECT = {
+    name:'Disruption Lab', date:'2022 – 2025',
+    overview:'Engineering Manager at the Disruption Lab (Gies College of Business), helping student teams turn broad client ideas into working products across AI, VR, blockchain, and more.',
+    tags:['UIUC','Engineering Management','Technical Leadership','Cross-functional Teams'],
+    detail:'As an Engineering Manager at UIUC&rsquo;s Disruption Lab, I helped student teams turn broad client ideas into working products &mdash; coordinating across AI, VR, blockchain, and more (14+ projects, roughly 135 students). Two of those projects:',
+    branch:[
+      { name:'Virtual Reality Project', date:'',
+        overview:'A client-facing VR experience built with Unity and AWS GameLift.',
+        tags:['Unity','AWS GameLift','Virtual Reality','Cloud Infrastructure','Technical Leadership'],
+        detail:'Designed an immersive environment and coordinated multiplayer, cloud-connected functionality — helping a student engineering team move from a broad concept to a working prototype.' },
+      { name:'Large Language Model Chat Project', date:'',
+        overview:'A conversational application exploring how LLMs could support practical user interactions.',
+        tags:['LLaMA 2','Conversational AI','Large Language Models','Prototyping','Product Strategy'],
+        detail:'Experimented with LLaMA 2 and related conversational AI workflows to prototype a practical chat experience for a client.' }
+    ]
+  };
 
   var COURSEWORK = ['Artificial Intelligence','Machine Learning','NLP','Information Retrieval','Computer Vision','Algorithms','Systems Programming','Databases','Numerical Methods','Tech Law & Policy','Business & Product Strategy'];
 
@@ -375,9 +391,44 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
         {label:'Podcast interview ↗', href:'https://podcasts.apple.com/dk/podcast/28-empowering-womxn-with-vidya-bharadwaj-and/id1530849370?i=1000538781265&l=da'}
       ]
     },
-    { year:'2021', title:'Encode Justice', body:[
+    { year:'2021–2024', title:'Encode Justice', body:[
         'From there, my work expanded into AI governance, digital safety, responsible tech, and youth participation in policymaking through Encode Justice — in education and events leadership. That meant AI-policy education, deepfake awareness, algorithmic bias, workshops, speaking engagements, and a lot of conversations with policymakers and researchers.'
-      ] },
+      ],
+      links:[ {label:'encodeai.org ↗', href:'https://encodeai.org'} ],
+      branch:[
+        { year:'2023', title:'TeachAI &amp; Code.org', body:[
+            'I worked with members of the TeachAI advisory committee as the AI Guidance for Schools Toolkit was developed — helping schools think through student safety, privacy, bias, academic integrity, access, and teacher/student agency.'
+          ],
+          linkedin:{ label:'From my LinkedIn', summary:'Shared a recap of collaborating on the TeachAI toolkit — the kind of guidance schools need to weigh student safety, privacy, and agency around AI.', date:'2023', url:'https://www.linkedin.com/posts/vidyab03_teachai-activity-7130703942736367618-3Khg' }
+        },
+        { year:'2023', title:'Code.org CSEdCon, Las Vegas', body:[
+            'I represented Encode Justice on the panel “Crafting AI Policies for Schools and Education Systems,” talking through AI education policy at the state, federal, and international level. I also pushed for culturally responsive AI: the data underneath these systems can reproduce cultural bias, so responsible AI takes more than technical safeguards — it takes approaches that respect different communities, histories, and ways of knowing.'
+          ],
+          linkedin:{ label:'From my LinkedIn', summary:'Recapped speaking at CSEdCon 2023 on a panel about AI education policy — with a note on why culturally responsive AI development matters as much as technical safeguards.', date:'2023', url:'https://www.linkedin.com/posts/vidyab03_teachai-activity-7130703942736367618-3Khg' }
+        },
+        { year:'—', title:'Brooklyn Technical High School', body:[
+            'Led interactive workshops helping high-schoolers understand how AI works, how bias enters technical systems, and how young people can participate in decisions about emerging technology.'
+          ], placeholder:'Add exact workshop title, date, student count, photos, and the related LinkedIn post here.' },
+        { year:'—', title:'JobsFirstNYC &amp; the NYC Bar Association', body:[
+            'Spoke about the lack of representation in tech, how the identities and experiences of builders shape the algorithms and products they create, and how young people entering the workforce can push for more inclusive, responsible systems.'
+          ], placeholder:'Add the related LinkedIn post and event link here.' },
+        { year:'—', title:'Museum of Science, Boston', body:[
+            'A talk connected to my work in AI education, digital safety, emerging tech, and youth advocacy.'
+          ], placeholder:'Add the formal event title, date, photos, and the related LinkedIn post here.' },
+        { year:'—', title:'Encode India Program', body:[
+            'Workshops and institutional engagement introducing engineering students and educators to algorithmic bias, responsible AI, technology governance, and the responsibility engineers carry beyond technical performance. The broader program reached hundreds of engineering students.'
+          ], placeholder:'Add exact institutions, dates, student count, photos, and the related LinkedIn post here.' },
+        { year:'Nov 2024', title:'Empowering Voices Summit, Washington D.C.', body:[
+            'I helped organize and run this summit on non-consensual deepfake imagery, youth safety, digital dignity, technology-facilitated abuse, and the legal, educational, and platform responses needed. It brought together advocates, policymakers, civil-society experts, educators, and tech representatives — including Francesca Mani, Senator Dick Durbin, Senator Ted Cruz, Senator Amy Klobuchar, Mary Anne Franks, Yiota Souras, Omny Miranda Martone, Stefan Turkheimer, and representatives from the Kent School and Snap Inc.'
+          ],
+          linkedin:{ label:'From my LinkedIn', summary:'Invited people to the D.C. summit on non-consensual deepfake imagery, featuring Francesca Mani alongside Senators Durbin, Cruz, and Klobuchar — reshared with a note that 15% of students already know a victim in their own school.', date:'Nov 2024', url:'https://www.linkedin.com/posts/vidyab03_join-us-in-dc-this-tuesday-november-19th-activity-7263727282559557633-QCzj' }
+        },
+        { year:'2024', title:'Meeting Dorota and Francesca Mani', body:[
+            'Meeting Dorota and Francesca Mani brought the urgency of deepfake policy into sharper focus for me. Their advocacy showed how one person’s experience of technology-facilitated abuse can become a powerful force for legislative, educational, and cultural change.',
+            'Speaking with them reinforced that digital-safety policy can’t exist only as an abstract conversation about technology. It has to stay grounded in the experiences of the people those systems are meant to protect.'
+          ], placeholder:'Add the exact date, location, event, photo, related LinkedIn post, and links to their advocacy here.' }
+      ]
+    },
     { year:'2021', title:'Featured by Reuters', body:[
         'Reuters featured my work as Encode Justice’s Education Director, teaching thousands of students about algorithmic bias, facial recognition, privacy, misinformation, and digital rights — alongside my work helping young women find pathways into science and tech through GirlCon.'
       ],
@@ -388,37 +439,6 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
       ],
       links:[ {label:'Read the feature ↗', href:'https://www.planusa.org/blog/in-her-own-words-cracking-the-code-for-equality-in-ai-1937/'} ]
     },
-    { year:'2023', title:'TeachAI &amp; Code.org', body:[
-        'I worked with members of the TeachAI advisory committee as the AI Guidance for Schools Toolkit was developed — helping schools think through student safety, privacy, bias, academic integrity, access, and teacher/student agency.'
-      ],
-      linkedin:{ label:'From my LinkedIn', summary:'Shared a recap of collaborating on the TeachAI toolkit — the kind of guidance schools need to weigh student safety, privacy, and agency around AI.', date:'2023', url:'https://www.linkedin.com/posts/vidyab03_teachai-activity-7130703942736367618-3Khg' }
-    },
-    { year:'2023', title:'Code.org CSEdCon, Las Vegas', body:[
-        'I represented Encode Justice on the panel “Crafting AI Policies for Schools and Education Systems,” talking through AI education policy at the state, federal, and international level. I also pushed for culturally responsive AI: the data underneath these systems can reproduce cultural bias, so responsible AI takes more than technical safeguards — it takes approaches that respect different communities, histories, and ways of knowing.'
-      ],
-      linkedin:{ label:'From my LinkedIn', summary:'Recapped speaking at CSEdCon 2023 on a panel about AI education policy — with a note on why culturally responsive AI development matters as much as technical safeguards.', date:'2023', url:'https://www.linkedin.com/posts/vidyab03_teachai-activity-7130703942736367618-3Khg' }
-    },
-    { year:'—', title:'Brooklyn Technical High School', body:[
-        'Led interactive workshops helping high-schoolers understand how AI works, how bias enters technical systems, and how young people can participate in decisions about emerging technology.'
-      ], placeholder:'Add exact workshop title, date, student count, and photos here.' },
-    { year:'—', title:'JobsFirstNYC &amp; the NYC Bar Association', body:[
-        'Spoke about the lack of representation in tech, how the identities and experiences of builders shape the algorithms and products they create, and how young people entering the workforce can push for more inclusive, responsible systems.'
-      ], placeholder:'Add the related LinkedIn post and event link here.' },
-    { year:'—', title:'Museum of Science, Boston', body:[
-        'A talk connected to my work in AI education, digital safety, emerging tech, and youth advocacy.'
-      ], placeholder:'Add the formal event title, date, photos, and link here.' },
-    { year:'—', title:'Encode India Program', body:[
-        'Workshops and institutional engagement introducing engineering students and educators to algorithmic bias, responsible AI, technology governance, and the responsibility engineers carry beyond technical performance. The broader program reached hundreds of engineering students.'
-      ], placeholder:'Add exact institutions, dates, student count, and photos here.' },
-    { year:'Nov 2024', title:'Empowering Voices Summit, Washington D.C.', body:[
-        'I helped organize and run this summit on non-consensual deepfake imagery, youth safety, digital dignity, technology-facilitated abuse, and the legal, educational, and platform responses needed. It brought together advocates, policymakers, civil-society experts, educators, and tech representatives — including Francesca Mani, Senator Dick Durbin, Senator Ted Cruz, Senator Amy Klobuchar, Mary Anne Franks, Yiota Souras, Omny Miranda Martone, Stefan Turkheimer, and representatives from the Kent School and Snap Inc.'
-      ],
-      linkedin:{ label:'From my LinkedIn', summary:'Invited people to the D.C. summit on non-consensual deepfake imagery, featuring Francesca Mani alongside Senators Durbin, Cruz, and Klobuchar — reshared with a note that 15% of students already know a victim in their own school.', date:'Nov 2024', url:'https://www.linkedin.com/posts/vidyab03_join-us-in-dc-this-tuesday-november-19th-activity-7263727282559557633-QCzj' }
-    },
-    { year:'2024', title:'Meeting Dorota and Francesca Mani', body:[
-        'Meeting Dorota and Francesca Mani brought the urgency of deepfake policy into sharper focus for me. Their advocacy showed how one person’s experience of technology-facilitated abuse can become a powerful force for legislative, educational, and cultural change.',
-        'Speaking with them reinforced that digital-safety policy can’t exist only as an abstract conversation about technology. It has to stay grounded in the experiences of the people those systems are meant to protect.'
-      ], placeholder:'Add the exact date, location, event, photo, and links to their advocacy here.' },
     { year:'2025', title:'RepuWhiz', body:[
         'RepuWhiz was a deepfake-detection and response platform for PR, communications, and reputation-management teams — combining my technical interest in computer vision and ML with my policy interest in synthetic media and digital authenticity. It explored detecting suspicious audio, video, and images; sending alerts; preserving evidence; supporting takedown workflows; and building incident reports before harmful synthetic media spreads.',
         'Recognition: Grainger Engineering Innovation Prize ($5,000), Third Place at Forge, and a 1517 Fund Medici Grant ($1,000) — plus early interest from PR and media professionals.'
@@ -428,10 +448,17 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
     { year:'2026', title:'Project Puthri, India', body:[
         'After graduating, I went to India and worked with Project Puthri to lead technology workshops for students from underserved communities — on AI, responsible technology, digital safety, and possible careers in tech. My goal was to help students see technology not only as something they use, but as something they could build, question, and shape themselves.',
         'This one connected my interests in engineering, education, representation, and public-interest technology with my own relationship to India.'
-      ], placeholder:'Add workshop photos, school names, cities, dates, student count, and quotes here.' },
-    { year:'Mar 2026', title:'Guest session at DMI College of Engineering, Chennai', body:[
-        'Spoke with engineering students in Chennai about building technology, entrepreneurship, artificial intelligence, digital safety, and lessons from founding RepuWhiz.'
-      ] }
+      ], placeholder:'Add workshop photos, city/school details, student counts, and quotes here.',
+      branch:[
+        { year:'Mar 2026', title:'DMI College of Engineering, Chennai', body:[
+            'Spoke with engineering students in Chennai about building technology, entrepreneurship, artificial intelligence, digital safety, and lessons from founding RepuWhiz.'
+          ] },
+        { year:'—', title:'Panimalar Engineering College', body:[],
+          placeholder:'Add the date, talk topic, photos, and the related LinkedIn post for this visit here.' },
+        { year:'—', title:'Dhanalakshmi Srinivasan Engineering College', body:[],
+          placeholder:'Add the date, talk topic, photos, and the related LinkedIn post for this visit here.' }
+      ]
+    }
   ];
 
   var MEDIA = [
@@ -488,6 +515,22 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
   }
   function renderFilmstrip(container, photos){ photos.forEach(function(p){ container.appendChild(renderFrame(p)); }); }
 
+  function renderProjectBranchItem(p, host){
+    var row = el('div','branch-item');
+    var head = el('div','branch-item-head');
+    head.appendChild(el('span','branch-item-title', p.name));
+    if(p.date){ head.appendChild(el('span','branch-item-date', p.date)); }
+    row.appendChild(head);
+    if(p.overview){ row.appendChild(el('p','', p.overview)); }
+    if(p.detail){ row.appendChild(el('p','', p.detail)); }
+    if(p.tags && p.tags.length){
+      var tags = el('div','idx-tags');
+      p.tags.forEach(function(t){ tags.appendChild(el('span','', t)); });
+      row.appendChild(tags);
+    }
+    host.appendChild(row);
+  }
+
   function renderProjRow(p, n, hostList){
     var d = document.createElement('details');
     d.className = 'idxrow';
@@ -505,6 +548,11 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
     var tags = el('div','idx-tags');
     (p.tags||[]).forEach(function(t){ tags.appendChild(el('span','', t)); });
     innerIn.appendChild(tags);
+    if(p.branch){
+      var branchHost = el('div','branch');
+      p.branch.forEach(function(sub){ renderProjectBranchItem(sub, branchHost); });
+      innerIn.appendChild(branchHost);
+    }
     inner.appendChild(innerIn);
     body.appendChild(inner);
     d.appendChild(summary); d.appendChild(body);
@@ -513,7 +561,7 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
 
   function renderProjects(){
     var host = document.getElementById('projlist');
-    var all = [CURRENT_PROJECT].concat(PREVIOUS_PROJECTS, DLAB_PROJECTS);
+    var all = [CURRENT_PROJECT].concat(PREVIOUS_PROJECTS, [DLAB_PROJECT]);
     all.forEach(function(p, i){ renderProjRow(p, i + 1, host); });
   }
 
@@ -533,6 +581,35 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
     var inv = document.getElementById('involvement');
     INVOLVEMENT.forEach(function(t){ inv.appendChild(el('span','plaintag', t)); });
     renderFilmstrip(document.getElementById('uiuc-photos'), UIUC_PHOTOS);
+  }
+
+  function renderTimelineBranchItem(item, host){
+    var row = el('div','branch-item');
+    var head = el('div','branch-item-head');
+    head.appendChild(el('span','branch-item-title', item.title));
+    if(item.year){ head.appendChild(el('span','branch-item-date', item.year)); }
+    row.appendChild(head);
+    (item.body||[]).forEach(function(p){ row.appendChild(el('p','', p)); });
+    if(item.linkedin){
+      var card = el('div','li-card');
+      card.appendChild(el('span','li-label', item.linkedin.label));
+      card.appendChild(el('p','', item.linkedin.summary));
+      var meta = el('div','li-meta', item.linkedin.date + ' · ');
+      var a = document.createElement('a'); a.href = item.linkedin.url; a.target='_blank'; a.rel='noopener'; a.textContent = 'view original post ↗';
+      meta.appendChild(a);
+      card.appendChild(meta);
+      row.appendChild(card);
+    }
+    if(item.links){
+      var linksRow = el('div','tl-links');
+      item.links.forEach(function(l){
+        var a = document.createElement('a'); a.href = l.href; a.target='_blank'; a.rel='noopener'; a.textContent = l.label;
+        linksRow.appendChild(a);
+      });
+      row.appendChild(linksRow);
+    }
+    if(item.placeholder){ row.appendChild(el('div','tl-placeholder', item.placeholder)); }
+    host.appendChild(row);
   }
 
   function renderTimeline(){
@@ -571,6 +648,11 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
         innerIn.appendChild(linksRow);
       }
       if(item.placeholder){ innerIn.appendChild(el('div','tl-placeholder', item.placeholder)); }
+      if(item.branch){
+        var branchHost = el('div','branch');
+        item.branch.forEach(function(sub){ renderTimelineBranchItem(sub, branchHost); });
+        innerIn.appendChild(branchHost);
+      }
       inner.appendChild(innerIn);
       body.appendChild(inner);
       tl.appendChild(body);
