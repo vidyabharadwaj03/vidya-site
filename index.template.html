@@ -14,34 +14,39 @@
 
 /* ============ TOKENS ============ */
 :root{
-  --bg:#FAF7F3; --bg-raised:#F3EEE7;
+  --bg:#FAF7F3; --bg-raised:#F8EEF2;
   --text:#211E1B; --text-muted:#6B6459; --text-faint:#78716A;
   --border:#E4DCD1; --border-strong:#D2C7B8;
-  --accent:#B5562F; --accent-ink:#8C4023;
+  --accent:#B5416F; --accent-ink:#8F2F56;
+  --blush:#F6DCE6; --blush-strong:#F0C4D8;
   --display:'Fraunces',Georgia,serif;
   --body:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
   --mono:'IBM Plex Mono','SFMono-Regular',Consolas,monospace;
   --ease:cubic-bezier(.16,1,.3,1);
+  --ease-bounce:cubic-bezier(.34,1.56,.64,1);
 }
 @media (prefers-color-scheme: dark){
   :root{
-    --bg:#1C1A18; --bg-raised:#252220;
+    --bg:#1C1A18; --bg-raised:#2A2024;
     --text:#F3EFE9; --text-muted:#A79E90; --text-faint:#94897A;
     --border:#39352F; --border-strong:#48423A;
-    --accent:#E08256; --accent-ink:#F2A47C;
+    --accent:#F2A0C4; --accent-ink:#F7BFDA;
+    --blush:#3A2530; --blush-strong:#4A2E3B;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#1C1A18; --bg-raised:#252220;
+  --bg:#1C1A18; --bg-raised:#2A2024;
   --text:#F3EFE9; --text-muted:#A79E90; --text-faint:#94897A;
   --border:#39352F; --border-strong:#48423A;
-  --accent:#E08256; --accent-ink:#F2A47C;
+  --accent:#F2A0C4; --accent-ink:#F7BFDA;
+  --blush:#3A2530; --blush-strong:#4A2E3B;
 }
 :root[data-theme="light"]{
-  --bg:#FAF7F3; --bg-raised:#F3EEE7;
+  --bg:#FAF7F3; --bg-raised:#F8EEF2;
   --text:#211E1B; --text-muted:#6B6459; --text-faint:#78716A;
   --border:#E4DCD1; --border-strong:#D2C7B8;
-  --accent:#B5562F; --accent-ink:#8C4023;
+  --accent:#B5416F; --accent-ink:#8F2F56;
+  --blush:#F6DCE6; --blush-strong:#F0C4D8;
 }
 
 /* ============ BASE ============ */
@@ -85,9 +90,11 @@ header.site{position:sticky; top:0; z-index:50; background:color-mix(in srgb, va
 .mark{font-family:var(--display); font-weight:600; font-size:1.05rem; color:var(--text); text-decoration:none;}
 nav.links{display:flex; gap:clamp(12px,2vw,22px); overflow-x:auto; scrollbar-width:none; font-family:var(--mono); font-size:.74rem; letter-spacing:.06em; text-transform:uppercase;}
 nav.links::-webkit-scrollbar{display:none;}
-nav.links a{color:var(--text-faint); text-decoration:none; white-space:nowrap; padding:4px 2px; border-bottom:1px solid transparent; transition:color .2s, border-color .2s;}
+nav.links a{color:var(--text-faint); text-decoration:none; white-space:nowrap; padding:4px 2px; position:relative; transition:color .2s;}
+nav.links a::after{content:''; position:absolute; left:2px; right:2px; bottom:0; height:1px; background:var(--accent); transform:scaleX(0); transform-origin:left; transition:transform .35s var(--ease-bounce);}
 nav.links a:hover{color:var(--text);}
-nav.links a.active{color:var(--accent); border-color:var(--accent);}
+nav.links a:hover::after, nav.links a.active::after{transform:scaleX(1);}
+nav.links a.active{color:var(--accent);}
 nav.links a .idx{opacity:.7; margin-right:.4em;}
 @media (max-width:640px){
   .navrow{flex-wrap:wrap; row-gap:10px; padding-top:14px; padding-bottom:14px;}
@@ -96,37 +103,41 @@ nav.links a .idx{opacity:.7; margin-right:.4em;}
 }
 
 /* ============ HERO ============ */
-.hero{padding-top:clamp(64px,11vw,104px); padding-bottom:clamp(56px,8vw,88px);}
+.hero{position:relative; overflow:hidden; padding-top:clamp(64px,11vw,104px); padding-bottom:clamp(56px,8vw,88px); --mx:60%; --my:20%;}
+.hero::before{content:''; position:absolute; inset:0; background:radial-gradient(360px circle at var(--mx) var(--my), color-mix(in srgb, var(--blush-strong) 60%, transparent), transparent 70%); pointer-events:none; z-index:0;}
+.hero-glow{position:absolute; top:-140px; right:-120px; width:420px; height:420px; border-radius:50%; background:radial-gradient(circle at 40% 40%, var(--blush-strong), transparent 72%); filter:blur(6px); opacity:.65; pointer-events:none; z-index:0; animation:hero-float 10s ease-in-out infinite;}
+@keyframes hero-float{0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-20px,26px) scale(1.07);}}
+@media (prefers-reduced-motion: reduce){ .hero-glow{animation:none;} .hero::before{display:none;} }
+.hero .wrap{position:relative; z-index:1;}
 .hero h1{font-size:clamp(2.6rem,6.4vw,4.2rem); line-height:1.04; letter-spacing:-.01em;}
 .hero .lede{font-size:clamp(1.02rem,1.8vw,1.15rem); color:var(--text-muted); max-width:52ch; margin-top:20px; line-height:1.6;}
 .hero .now{margin-top:26px; display:flex; align-items:baseline; gap:10px; font-size:.94rem;}
-.hero .now .mono-label{white-space:nowrap;}
+.hero .now .mono-label{white-space:nowrap; display:inline-flex; align-items:center; gap:7px;}
+.hero .now .dot{width:7px; height:7px; border-radius:50%; background:var(--accent); display:inline-block; animation:dot-pulse 2.2s ease-in-out infinite;}
+@media (prefers-reduced-motion: reduce){ .hero .now .dot{animation:none;} }
+@keyframes dot-pulse{0%,100%{opacity:1; transform:scale(1);} 50%{opacity:.45; transform:scale(1.4);}}
 .hero .now p{color:var(--text);}
 
-/* ============ FRAME (photo placeholders / filmstrip) ============ */
-.filmstrip{display:flex; gap:14px; overflow-x:auto; padding:6px 2px 6px; scrollbar-width:thin;}
-.frame{flex:none; width:168px;}
-.frame-img{aspect-ratio:4/5; border:1px solid var(--border-strong); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; color:var(--text-faint); font-size:.74rem; text-align:center; padding:10px; overflow:hidden;}
-.frame-img img{width:100%; height:100%; object-fit:cover;}
-.frame-cap{margin-top:8px; font-family:var(--mono); font-size:.72rem; color:var(--text-faint); text-align:center; letter-spacing:.02em;}
-
 .plaintag{font-family:var(--mono); font-size:.76rem; color:var(--text-muted); padding:5px 0;}
-.chipline{display:flex; flex-wrap:wrap; gap:6px 16px;}
 
 /* ============ INDEX ROWS (projects / timeline shared language) ============ */
 .idxlist{margin-top:32px; border-top:1px solid var(--border);}
 details.idxrow{border-bottom:1px solid var(--border);}
-details.idxrow summary{list-style:none; cursor:pointer; padding:20px 0; display:grid; grid-template-columns:2.4rem 1fr auto auto; gap:4px 18px; align-items:start;}
+details.idxrow summary{list-style:none; cursor:pointer; margin:0 -14px; padding:20px 14px; border-radius:12px; display:grid; grid-template-columns:2.4rem 1fr auto auto; gap:4px 18px; align-items:start; transition:background .25s var(--ease);}
+details.idxrow summary:hover{background:var(--blush);}
 details.idxrow summary::-webkit-details-marker{display:none;}
 .idx-n{font-family:var(--mono); font-size:.85rem; color:var(--text-faint); padding-top:.2em;}
 .idx-main{min-width:0;}
-.idx-title{font-family:var(--display); font-weight:600; font-size:1.1rem; color:var(--text);}
+.idx-title{font-family:var(--display); font-weight:600; font-size:1.1rem; color:var(--text); transition:color .2s var(--ease);}
+details.idxrow summary:hover .idx-title{color:var(--accent-ink);}
 .idx-overview{font-size:.92rem; color:var(--text-muted); margin-top:5px; line-height:1.5;}
 .idx-meta{font-family:var(--mono); font-size:.74rem; color:var(--text-faint); text-align:right; white-space:nowrap; padding-top:.3em;}
 .idx-toggle{width:18px; height:18px; flex:none; position:relative; margin-top:.3em;}
-.idx-toggle::before,.idx-toggle::after{content:""; position:absolute; background:var(--text-faint); top:50%; left:50%; transform:translate(-50%,-50%);}
+.idx-toggle::before,.idx-toggle::after{content:""; position:absolute; background:var(--text-faint); top:50%; left:50%; transform:translate(-50%,-50%); transition:background .2s var(--ease);}
 .idx-toggle::before{width:10px; height:1px;}
-.idx-toggle::after{width:1px; height:10px; transition:transform .3s var(--ease);}
+.idx-toggle::after{width:1px; height:10px; transition:transform .35s var(--ease-bounce), background .2s var(--ease);}
+details.idxrow summary:hover .idx-toggle::before,
+details.idxrow summary:hover .idx-toggle::after{background:var(--accent);}
 details[open] > summary .idx-toggle::after{transform:translate(-50%,-50%) scaleY(0);}
 details[open] > summary .idx-title{color:var(--accent-ink);}
 details.idxrow > .idx-body{display:grid !important; grid-template-rows:0fr; transition:grid-template-rows .4s var(--ease);}
@@ -136,7 +147,8 @@ details[open] > .idx-body{grid-template-rows:1fr;}
 .idx-body-inner p{color:var(--text); font-size:.95rem; line-height:1.65; max-width:64ch;}
 .idx-body-inner p + p{margin-top:12px;}
 .idx-tags{display:flex; flex-wrap:wrap; gap:8px 14px; margin-top:14px;}
-.idx-tags span{font-family:var(--mono); font-size:.72rem; color:var(--text-faint);}
+.idx-tags span{font-family:var(--mono); font-size:.72rem; color:var(--text-faint); transition:color .2s var(--ease);}
+.idx-tags span:hover{color:var(--accent);}
 .idx-tags span::after{content:'·'; margin-left:14px; color:var(--border-strong);}
 .idx-tags span:last-child::after{content:'';}
 
@@ -158,7 +170,8 @@ details[open] > .idx-body{grid-template-rows:1fr;}
 
 /* ============ BRANCH (nested mini-experiences within a row) ============ */
 .branch{margin-top:18px; border-top:1px solid var(--border); max-width:64ch;}
-.branch-item{padding:16px 0 16px 18px; border-bottom:1px solid var(--border); border-left:1px solid var(--border-strong);}
+.branch-item{padding:16px 14px 16px 18px; margin:0 -14px; border-bottom:1px solid var(--border); border-left:1px solid var(--border-strong); transition:background .25s var(--ease);}
+.branch-item:hover{background:var(--blush);}
 .branch-item-head{display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap;}
 .branch-item-title{font-family:var(--display); font-weight:600; font-size:.98rem; color:var(--text);}
 .branch-item-date{font-family:var(--mono); font-size:.72rem; color:var(--text-faint); white-space:nowrap;}
@@ -168,26 +181,27 @@ details[open] > .idx-body{grid-template-rows:1fr;}
 
 /* ============ MEDIA LIST ============ */
 .media-list{margin-top:32px; border-top:1px solid var(--border);}
-.media-row{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:6px 20px; padding:16px 0; border-bottom:1px solid var(--border);}
+.media-row{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:6px 20px; padding:16px 14px; margin:0 -14px; border-radius:12px; border-bottom:1px solid var(--border); transition:background .25s var(--ease);}
+.media-row:hover{background:var(--blush);}
 .media-row .outlet{font-family:var(--mono); font-size:.78rem; letter-spacing:.04em; text-transform:uppercase; color:var(--accent); min-width:140px;}
 .media-row .title{font-weight:500; flex:1 1 260px;}
 .media-row .date{font-family:var(--mono); font-size:.76rem; color:var(--text-faint); white-space:nowrap;}
 
 /* ============ BEYOND / HOBBIES ============ */
 .hobby-list{margin-top:32px; display:flex; flex-direction:column; border-top:1px solid var(--border);}
-.hobby-row{display:grid; grid-template-columns:168px 1fr; gap:24px; padding:28px 0; border-bottom:1px solid var(--border); align-items:start;}
+.hobby-row{padding:24px 14px; margin:0 -14px; border-radius:12px; border-bottom:1px solid var(--border); transition:background .25s var(--ease);}
+.hobby-row:hover{background:var(--blush);}
 .hobby-row h3{font-size:1.15rem;}
 .hobby-row .meta{font-family:var(--mono); font-size:.76rem; color:var(--accent); margin-top:3px; display:block;}
 .hobby-row p{color:var(--text-muted); margin-top:10px; font-size:.95rem; line-height:1.6; max-width:56ch;}
-.passion-empty{padding:24px 0; color:var(--text-faint); font-family:var(--mono); font-size:.82rem;}
-@media (max-width:560px){ .hobby-row{grid-template-columns:1fr;} .hobby-row .frame{width:120px;} }
+.passion-empty{padding:24px 14px; color:var(--text-faint); font-family:var(--mono); font-size:.82rem;}
 
 /* ============ CONTACT ============ */
 .contact .lede{margin-top:14px; color:var(--text-muted); font-size:1rem; max-width:56ch; line-height:1.6;}
-.contact-links{margin-top:32px; border-top:1px solid var(--border); max-width:56ch;}
-.contact-row{display:flex; align-items:baseline; gap:18px; padding:15px 0; border-bottom:1px solid var(--border);}
-.contact-row .label{font-family:var(--mono); font-size:.78rem; letter-spacing:.04em; text-transform:uppercase; color:var(--text-faint); width:84px; flex:none;}
-.contact-row a{font-size:1.02rem;}
+.icon-links{display:flex; gap:16px; margin-top:36px;}
+.icon-link{width:52px; height:52px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--blush); color:var(--accent-ink); text-decoration:none; transition:transform .4s var(--ease-bounce), background .3s var(--ease), color .3s var(--ease);}
+.icon-link:hover{background:var(--accent); color:#fff; transform:translateY(-4px) scale(1.07) rotate(-4deg);}
+.icon-link svg{width:22px; height:22px;}
 
 footer.site{padding:28px 0 44px; border-top:1px solid var(--border);}
 footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; gap:10px; font-family:var(--mono); font-size:.76rem; color:var(--text-faint);}
@@ -195,7 +209,9 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <symbol id="ic-photo" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="9" cy="10.5" r="1.6" fill="currentColor"/><path d="M3 16l5-4 4 3 4-3 5 5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+    <symbol id="ic-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ic-linkedin" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="8.2" cy="8.5" r="1.3" fill="currentColor"/><path d="M8.2 11.2v6M12 17.2v-4c0-1.5 1-2.4 2.3-2.4S16.8 11.7 16.8 13.2v4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="ic-github" viewBox="0 0 24 24"><path d="M8.5 8L4.5 12l4 4M15.5 8l4 4-4 4M13.2 5l-2.4 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   </defs>
 </svg>
 
@@ -204,11 +220,10 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
     <a class="mark" href="#top">Vidya Bharadwaj</a>
     <nav class="links" id="navlinks">
       <a href="#projects"><span class="idx">01</span>Projects</a>
-      <a href="#education"><span class="idx">02</span>Education</a>
-      <a href="#activism"><span class="idx">03</span>Activism</a>
-      <a href="#media"><span class="idx">04</span>Media</a>
-      <a href="#beyond"><span class="idx">05</span>Beyond</a>
-      <a href="#contact"><span class="idx">06</span>Contact</a>
+      <a href="#activism"><span class="idx">02</span>Activism</a>
+      <a href="#media"><span class="idx">03</span>Media</a>
+      <a href="#beyond"><span class="idx">04</span>Beyond</a>
+      <a href="#contact"><span class="idx">05</span>Contact</a>
     </nav>
   </div>
 </header>
@@ -216,11 +231,12 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
 <main id="top">
 
   <section class="hero" id="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
     <div class="wrap">
       <h1>Hi, I&rsquo;m Vidya.</h1>
-      <p class="lede">I&rsquo;m a software engineer, founder, technology&#8209;policy advocate, educator, and Bharatanatyam dancer from the Chicago area, currently preparing to move to San Francisco. I like building products, exploring how technology affects people, and creating opportunities for more people to participate in shaping it.</p>
+      <p class="lede">I&rsquo;m a software engineer, founder, technology&#8209;policy advocate, educator, and Bharatanatyam dancer from the Chicago area &mdash; a UIUC computer science grad currently preparing to move to San Francisco. I like building products, exploring how technology affects people, and creating opportunities for more people to participate in shaping it.</p>
       <div class="now">
-        <span class="mono-label">Currently</span>
+        <span class="mono-label"><span class="dot" aria-hidden="true"></span>Currently</span>
         <p>Building <a href="https://joinsoraa.com/" target="_blank" rel="noopener">Soraa</a>, an AI&#8209;powered platform for brand&#8209;creator matching.</p>
       </div>
     </div>
@@ -239,28 +255,10 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
     </div>
   </section>
 
-  <section id="education">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="num">02</span>
-        <div class="head-text">
-          <span class="mono-label">Education</span>
-          <h2 style="margin-top:6px;">University of Illinois Urbana&#8209;Champaign</h2>
-          <p>I recently graduated with a B.S. in Computer Science and a minor in Business &mdash; a mix of technical coursework, product thinking, entrepreneurship, and public policy.</p>
-        </div>
-      </div>
-      <div class="chipline" id="coursework" style="margin-top:22px; padding-left:calc(14px + 2.4rem);"></div>
-      <ul class="reveal" id="academic-work" style="margin-top:26px; padding:0 0 0 calc(14px + 2.4rem); display:grid; gap:8px; max-width:66ch; list-style:none;"></ul>
-      <p class="reveal" style="margin-top:18px; padding-left:calc(14px + 2.4rem); color:var(--text-muted); max-width:66ch;">UIUC also gave me chances to manage engineering teams, mentor younger students, and build things beyond the classroom &mdash; including as an Engineering Manager at the Disruption Lab (Gies College of Business), helping student teams turn broad client ideas into working products across AI, VR, blockchain, and more (14+ projects, roughly 135 students). See a couple of those projects tagged &ldquo;UIUC&rdquo; under Projects.</p>
-      <div class="chipline reveal" id="involvement" style="margin-top:14px; padding-left:calc(14px + 2.4rem);"></div>
-      <div class="filmstrip reveal" id="uiuc-photos" style="margin-top:24px; padding-left:calc(14px + 2.4rem);"></div>
-    </div>
-  </section>
-
   <section id="activism">
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="num">03</span>
+        <span class="num">02</span>
         <div class="head-text">
           <span class="mono-label">Technology activism &amp; impact</span>
           <h2 style="margin-top:6px;">How I went from teaching kids to code, to arguing about AI policy in D.C.</h2>
@@ -273,7 +271,7 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
   <section id="media">
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="num">04</span>
+        <span class="num">03</span>
         <div class="head-text">
           <span class="mono-label">In the media</span>
           <h2 style="margin-top:6px;">A few places this work has shown up.</h2>
@@ -286,7 +284,7 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
   <section id="beyond">
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="num">05</span>
+        <span class="num">04</span>
         <div class="head-text">
           <span class="mono-label">Beyond the screen</span>
           <h2 style="margin-top:6px;">The other things that take up my time and attention.</h2>
@@ -299,10 +297,10 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
   <section id="contact" class="contact">
     <div class="wrap">
       <div class="reveal">
-        <span class="mono-label">06 &middot; Say hello</span>
+        <span class="mono-label">05 &middot; Say hello</span>
         <h2 style="margin-top:6px;">Let&rsquo;s meet.</h2>
         <p class="lede">I&rsquo;m always happy to meet people building thoughtful technology, working on digital safety, expanding access to education, or creating something interesting.</p>
-        <div class="contact-links" id="contact-links"></div>
+        <div class="icon-links" id="contact-links"></div>
       </div>
     </div>
   </section>
@@ -325,6 +323,23 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
     overview:'An AI-powered platform helping brands and creators find better partnership matches.',
     tags:['Next.js','TypeScript','AI Matching','Marketplace','Product Strategy','User Research'],
     detail:'Instead of relying only on follower counts, spreadsheets, and manual outreach, Soraa looks at campaign goals, audience, content style, location, and overall fit. I&rsquo;ve worked across product strategy, engineering, user research, brand and creator onboarding, partnership operations, and early customer development. <a href="https://joinsoraa.com/" target="_blank" rel="noopener">joinsoraa.com &#8599;</a>' };
+
+  var DLAB_PROJECT = {
+    name:'Disruption Lab', date:'2022 – 2025',
+    overview:'Engineering Manager at the Disruption Lab (Gies College of Business), helping student teams turn broad client ideas into working products across AI, VR, blockchain, and more.',
+    tags:['UIUC','Engineering Management','Technical Leadership','Cross-functional Teams'],
+    detail:'As an Engineering Manager at UIUC&rsquo;s Disruption Lab, I helped student teams turn broad client ideas into working products &mdash; coordinating across AI, VR, blockchain, and more (14+ projects, roughly 135 students). Two of those projects:',
+    branch:[
+      { name:'Virtual Reality Project', date:'',
+        overview:'A client-facing VR experience built with Unity and AWS GameLift.',
+        tags:['Unity','AWS GameLift','Virtual Reality','Cloud Infrastructure','Technical Leadership'],
+        detail:'Designed an immersive environment and coordinated multiplayer, cloud-connected functionality — helping a student engineering team move from a broad concept to a working prototype.' },
+      { name:'Large Language Model Chat Project', date:'',
+        overview:'A conversational application exploring how LLMs could support practical user interactions.',
+        tags:['LLaMA 2','Conversational AI','Large Language Models','Prototyping','Product Strategy'],
+        detail:'Experimented with LLaMA 2 and related conversational AI workflows to prototype a practical chat experience for a client.' }
+    ]
+  };
 
   var PREVIOUS_PROJECTS = [
     { name:'MealMatch', date:'Sep 2024 – Dec 2024',
@@ -349,53 +364,40 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
       detail:'Engineered a dual-axis solar tracker, simulated weather and performance conditions, and conducted a techno-economic analysis of solar-grid integration using power-line communication. Won first place, was featured through ComEd, and included a 20-page technical paper and video presentation.' }
   ];
 
-  var DLAB_PROJECT = {
-    name:'Disruption Lab', date:'2022 – 2025',
-    overview:'Engineering Manager at the Disruption Lab (Gies College of Business), helping student teams turn broad client ideas into working products across AI, VR, blockchain, and more.',
-    tags:['UIUC','Engineering Management','Technical Leadership','Cross-functional Teams'],
-    detail:'As an Engineering Manager at UIUC&rsquo;s Disruption Lab, I helped student teams turn broad client ideas into working products &mdash; coordinating across AI, VR, blockchain, and more (14+ projects, roughly 135 students). Two of those projects:',
-    branch:[
-      { name:'Virtual Reality Project', date:'',
-        overview:'A client-facing VR experience built with Unity and AWS GameLift.',
-        tags:['Unity','AWS GameLift','Virtual Reality','Cloud Infrastructure','Technical Leadership'],
-        detail:'Designed an immersive environment and coordinated multiplayer, cloud-connected functionality — helping a student engineering team move from a broad concept to a working prototype.' },
-      { name:'Large Language Model Chat Project', date:'',
-        overview:'A conversational application exploring how LLMs could support practical user interactions.',
-        tags:['LLaMA 2','Conversational AI','Large Language Models','Prototyping','Product Strategy'],
-        detail:'Experimented with LLaMA 2 and related conversational AI workflows to prototype a practical chat experience for a client.' }
-    ]
-  };
-
-  var COURSEWORK = ['Artificial Intelligence','Machine Learning','NLP','Information Retrieval','Computer Vision','Algorithms','Systems Programming','Databases','Numerical Methods','Tech Law & Policy','Business & Product Strategy'];
-
-  var INVOLVEMENT = ['WCS','Engineering Council','Engineering Open House'];
-
-  var ACADEMIC_WORK = [
-    'Built a search engine using TF-IDF and BM25',
-    'Computer-vision projects — image blending, feature matching, video panoramas',
-    'A workout & nutrition platform using BigQuery and Cloud SQL',
-    'Systems projects — shells, memory allocation, networking, parallel computing, MapReduce',
-    'Research on deepfakes, synthetic media, digital safety, and emerging AI regulation'
-  ];
-
-  var UIUC_PHOTOS = [ {caption:'graduation day'}, {caption:'campus'}, {caption:'a project demo'} ];
-
   var TIMELINE = [
-    { year:'2020–21', title:'GirlCon', body:[
-        'I first got into tech activism through GirlCon, a student-run international conference helping girls and gender-diverse students explore technology. I served in senior leadership and Co-Director roles — overseeing programming, partnerships, sponsors, and a team of 100+ students, for a conference that reached hundreds of attendees worldwide.',
-        'I now serve on GirlCon’s Board of Directors and still support the org and its student leaders.'
-      ],
-      links:[
-        {label:'Lifewire feature ↗', href:'https://www.lifewire.com/how-girlcon-fuels-students-interests-in-tech-5191109'},
-        {label:'PR Newswire feature ↗', href:'https://www.prnewswire.com/news-releases/fourth-annual-girlcon-conference-aims-to-empower-young-women-in-stem-301292051.html'},
-        {label:'Podcast interview ↗', href:'https://podcasts.apple.com/dk/podcast/28-empowering-womxn-with-vidya-bharadwaj-and/id1530849370?i=1000538781265&l=da'}
+    { year:'2026', title:'Project Puthri, India', body:[
+        'After graduating, I went to India and worked with Project Puthri to lead technology workshops for students from underserved communities — on AI, responsible technology, digital safety, and possible careers in tech. My goal was to help students see technology not only as something they use, but as something they could build, question, and shape themselves.',
+        'This one connected my interests in engineering, education, representation, and public-interest technology with my own relationship to India.'
+      ], placeholder:'More info coming soon.',
+      branch:[
+        { year:'Mar 2026', title:'DMI College of Engineering, Chennai', body:[
+            'Spoke with engineering students in Chennai about building technology, entrepreneurship, artificial intelligence, digital safety, and lessons from founding RepuWhiz.'
+          ] },
+        { year:'—', title:'Panimalar Engineering College', body:[], placeholder:'More info coming soon.' },
+        { year:'—', title:'Dhanalakshmi Srinivasan Engineering College', body:[], placeholder:'More info coming soon.' }
       ]
+    },
+    { year:'2025', title:'RepuWhiz', body:[
+        'RepuWhiz was a deepfake-detection and response platform for PR, communications, and reputation-management teams — combining my technical interest in computer vision and ML with my policy interest in synthetic media and digital authenticity. It explored detecting suspicious audio, video, and images; sending alerts; preserving evidence; supporting takedown workflows; and building incident reports before harmful synthetic media spreads.',
+        'Recognition: Grainger Engineering Innovation Prize ($5,000), Third Place at Forge, and a 1517 Fund Medici Grant ($1,000) — plus early interest from PR and media professionals.'
+      ],
+      linkedin:{ label:'From my LinkedIn', summary:'Announced RepuWhiz and its private beta, tied it to the newly signed TAKE IT DOWN Act, and put out a call for co-founders in AI research, PR, or enterprise sales.', date:'2025', url:'https://www.linkedin.com/posts/vidyab03_repuwhiz-activity-7331015724393562112-egth' },
+      links:[ {label:'repuwhiz.com — demo coming soon ↗', href:'https://repuwhiz.com'} ]
     },
     { year:'2021–2024', title:'Encode Justice', body:[
         'From there, my work expanded into AI governance, digital safety, responsible tech, and youth participation in policymaking through Encode Justice — in education and events leadership. That meant AI-policy education, deepfake awareness, algorithmic bias, workshops, speaking engagements, and a lot of conversations with policymakers and researchers.'
       ],
       links:[ {label:'encodeai.org ↗', href:'https://encodeai.org'} ],
       branch:[
+        { year:'Nov 2024', title:'Empowering Voices Summit, Washington D.C.', body:[
+            'I helped organize and run this summit on non-consensual deepfake imagery, youth safety, digital dignity, technology-facilitated abuse, and the legal, educational, and platform responses needed. It brought together advocates, policymakers, civil-society experts, educators, and tech representatives — including Francesca Mani, Senator Dick Durbin, Senator Ted Cruz, Senator Amy Klobuchar, Mary Anne Franks, Yiota Souras, Omny Miranda Martone, Stefan Turkheimer, and representatives from the Kent School and Snap Inc.'
+          ],
+          linkedin:{ label:'From my LinkedIn', summary:'Invited people to the D.C. summit on non-consensual deepfake imagery, featuring Francesca Mani alongside Senators Durbin, Cruz, and Klobuchar — reshared with a note that 15% of students already know a victim in their own school.', date:'Nov 2024', url:'https://www.linkedin.com/posts/vidyab03_join-us-in-dc-this-tuesday-november-19th-activity-7263727282559557633-QCzj' }
+        },
+        { year:'2024', title:'Meeting Dorota and Francesca Mani', body:[
+            'Meeting Dorota and Francesca Mani brought the urgency of deepfake policy into sharper focus for me. Their advocacy showed how one person’s experience of technology-facilitated abuse can become a powerful force for legislative, educational, and cultural change.',
+            'Speaking with them reinforced that digital-safety policy can’t exist only as an abstract conversation about technology. It has to stay grounded in the experiences of the people those systems are meant to protect.'
+          ], placeholder:'More info coming soon.' },
         { year:'2023', title:'TeachAI &amp; Code.org', body:[
             'I worked with members of the TeachAI advisory committee as the AI Guidance for Schools Toolkit was developed — helping schools think through student safety, privacy, bias, academic integrity, access, and teacher/student agency.'
           ],
@@ -406,85 +408,63 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
           ],
           linkedin:{ label:'From my LinkedIn', summary:'Recapped speaking at CSEdCon 2023 on a panel about AI education policy — with a note on why culturally responsive AI development matters as much as technical safeguards.', date:'2023', url:'https://www.linkedin.com/posts/vidyab03_teachai-activity-7130703942736367618-3Khg' }
         },
+        { year:'2021', title:'Featured by Reuters', body:[
+            'Reuters featured my work as Encode Justice’s Education Director, teaching thousands of students about algorithmic bias, facial recognition, privacy, misinformation, and digital rights — alongside my work helping young women find pathways into science and tech through GirlCon.'
+          ],
+          links:[ {label:'Read the article ↗', href:'https://jp.reuters.com/article/usa-tech-youth-rights-idINL5N2NZ5AD/'} ]
+        },
         { year:'—', title:'Brooklyn Technical High School', body:[
             'Led interactive workshops helping high-schoolers understand how AI works, how bias enters technical systems, and how young people can participate in decisions about emerging technology.'
-          ], placeholder:'Add exact workshop title, date, student count, photos, and the related LinkedIn post here.' },
+          ], placeholder:'More info coming soon.' },
         { year:'—', title:'JobsFirstNYC &amp; the NYC Bar Association', body:[
             'Spoke about the lack of representation in tech, how the identities and experiences of builders shape the algorithms and products they create, and how young people entering the workforce can push for more inclusive, responsible systems.'
-          ], placeholder:'Add the related LinkedIn post and event link here.' },
+          ], placeholder:'More info coming soon.' },
         { year:'—', title:'Museum of Science, Boston', body:[
             'A talk connected to my work in AI education, digital safety, emerging tech, and youth advocacy.'
-          ], placeholder:'Add the formal event title, date, photos, and the related LinkedIn post here.' },
+          ], placeholder:'More info coming soon.' },
         { year:'—', title:'Encode India Program', body:[
             'Workshops and institutional engagement introducing engineering students and educators to algorithmic bias, responsible AI, technology governance, and the responsibility engineers carry beyond technical performance. The broader program reached hundreds of engineering students.'
-          ], placeholder:'Add exact institutions, dates, student count, photos, and the related LinkedIn post here.' },
-        { year:'Nov 2024', title:'Empowering Voices Summit, Washington D.C.', body:[
-            'I helped organize and run this summit on non-consensual deepfake imagery, youth safety, digital dignity, technology-facilitated abuse, and the legal, educational, and platform responses needed. It brought together advocates, policymakers, civil-society experts, educators, and tech representatives — including Francesca Mani, Senator Dick Durbin, Senator Ted Cruz, Senator Amy Klobuchar, Mary Anne Franks, Yiota Souras, Omny Miranda Martone, Stefan Turkheimer, and representatives from the Kent School and Snap Inc.'
-          ],
-          linkedin:{ label:'From my LinkedIn', summary:'Invited people to the D.C. summit on non-consensual deepfake imagery, featuring Francesca Mani alongside Senators Durbin, Cruz, and Klobuchar — reshared with a note that 15% of students already know a victim in their own school.', date:'Nov 2024', url:'https://www.linkedin.com/posts/vidyab03_join-us-in-dc-this-tuesday-november-19th-activity-7263727282559557633-QCzj' }
-        },
-        { year:'2024', title:'Meeting Dorota and Francesca Mani', body:[
-            'Meeting Dorota and Francesca Mani brought the urgency of deepfake policy into sharper focus for me. Their advocacy showed how one person’s experience of technology-facilitated abuse can become a powerful force for legislative, educational, and cultural change.',
-            'Speaking with them reinforced that digital-safety policy can’t exist only as an abstract conversation about technology. It has to stay grounded in the experiences of the people those systems are meant to protect.'
-          ], placeholder:'Add the exact date, location, event, photo, related LinkedIn post, and links to their advocacy here.' }
+          ], placeholder:'More info coming soon.' }
       ]
-    },
-    { year:'2021', title:'Featured by Reuters', body:[
-        'Reuters featured my work as Encode Justice’s Education Director, teaching thousands of students about algorithmic bias, facial recognition, privacy, misinformation, and digital rights — alongside my work helping young women find pathways into science and tech through GirlCon.'
-      ],
-      links:[ {label:'Read the article ↗', href:'https://jp.reuters.com/article/usa-tech-youth-rights-idINL5N2NZ5AD/'} ]
     },
     { year:'2022', title:'Plan International USA', body:[
         'Featured in “In Her Own Words: Cracking the Code for Equality in AI” — on equality, bias, representation, and why girls and young people from historically excluded communities need a real role in building and governing AI.'
       ],
       links:[ {label:'Read the feature ↗', href:'https://www.planusa.org/blog/in-her-own-words-cracking-the-code-for-equality-in-ai-1937/'} ]
     },
-    { year:'2025', title:'RepuWhiz', body:[
-        'RepuWhiz was a deepfake-detection and response platform for PR, communications, and reputation-management teams — combining my technical interest in computer vision and ML with my policy interest in synthetic media and digital authenticity. It explored detecting suspicious audio, video, and images; sending alerts; preserving evidence; supporting takedown workflows; and building incident reports before harmful synthetic media spreads.',
-        'Recognition: Grainger Engineering Innovation Prize ($5,000), Third Place at Forge, and a 1517 Fund Medici Grant ($1,000) — plus early interest from PR and media professionals.'
+    { year:'2020–21', title:'GirlCon', body:[
+        'I first got into tech activism through GirlCon, a student-run international conference helping girls and gender-diverse students explore technology. I served in senior leadership and Co-Director roles — overseeing programming, partnerships, sponsors, and a team of 100+ students, for a conference that reached hundreds of attendees worldwide.',
+        'I now serve on GirlCon’s Board of Directors and still support the org and its student leaders.'
       ],
-      linkedin:{ label:'From my LinkedIn', summary:'Announced RepuWhiz and its private beta, tied it to the newly signed TAKE IT DOWN Act, and put out a call for co-founders in AI research, PR, or enterprise sales.', date:'2025', url:'https://www.linkedin.com/posts/vidyab03_repuwhiz-activity-7331015724393562112-egth' }
-    },
-    { year:'2026', title:'Project Puthri, India', body:[
-        'After graduating, I went to India and worked with Project Puthri to lead technology workshops for students from underserved communities — on AI, responsible technology, digital safety, and possible careers in tech. My goal was to help students see technology not only as something they use, but as something they could build, question, and shape themselves.',
-        'This one connected my interests in engineering, education, representation, and public-interest technology with my own relationship to India.'
-      ], placeholder:'Add workshop photos, city/school details, student counts, and quotes here.',
-      branch:[
-        { year:'Mar 2026', title:'DMI College of Engineering, Chennai', body:[
-            'Spoke with engineering students in Chennai about building technology, entrepreneurship, artificial intelligence, digital safety, and lessons from founding RepuWhiz.'
-          ] },
-        { year:'—', title:'Panimalar Engineering College', body:[],
-          placeholder:'Add the date, talk topic, photos, and the related LinkedIn post for this visit here.' },
-        { year:'—', title:'Dhanalakshmi Srinivasan Engineering College', body:[],
-          placeholder:'Add the date, talk topic, photos, and the related LinkedIn post for this visit here.' }
+      links:[
+        {label:'Lifewire feature ↗', href:'https://www.lifewire.com/how-girlcon-fuels-students-interests-in-tech-5191109'},
+        {label:'PR Newswire feature ↗', href:'https://www.prnewswire.com/news-releases/fourth-annual-girlcon-conference-aims-to-empower-young-women-in-stem-301292051.html'},
+        {label:'Podcast interview ↗', href:'https://podcasts.apple.com/dk/podcast/28-empowering-womxn-with-vidya-bharadwaj-and/id1530849370?i=1000538781265&l=da'}
       ]
     }
   ];
 
   var MEDIA = [
-    { outlet:'Reuters', title:'‘Adults have failed’: Youth activists take up fight for U.S. digital rights', date:'Jun 17, 2021', url:'https://jp.reuters.com/article/usa-tech-youth-rights-idINL5N2NZ5AD/' },
     { outlet:'Plan International USA', title:'In Her Own Words: Cracking the Code for Equality in AI', date:'Dec 8, 2022', url:'https://www.planusa.org/blog/in-her-own-words-cracking-the-code-for-equality-in-ai-1937/' },
+    { outlet:'Podcast', title:'Empowering Womxn with Vidya Bharadwaj and Prachi Gyanmote of GirlCon', date:'Oct 2021', url:'https://podcasts.apple.com/dk/podcast/28-empowering-womxn-with-vidya-bharadwaj-and/id1530849370?i=1000538781265&l=da' },
     { outlet:'Lifewire', title:'How GirlCon Fuels Students’ Interests in Tech', date:'Jun 30, 2021', url:'https://www.lifewire.com/how-girlcon-fuels-students-interests-in-tech-5191109' },
-    { outlet:'PR Newswire', title:'Fourth Annual GirlCon Conference Aims to Empower Young Women in STEM', date:'May 17, 2021', url:'https://www.prnewswire.com/news-releases/fourth-annual-girlcon-conference-aims-to-empower-young-women-in-stem-301292051.html' },
-    { outlet:'Podcast', title:'Empowering Womxn with Vidya Bharadwaj and Prachi Gyanmote of GirlCon', date:'Oct 2021', url:'https://podcasts.apple.com/dk/podcast/28-empowering-womxn-with-vidya-bharadwaj-and/id1530849370?i=1000538781265&l=da' }
+    { outlet:'Reuters', title:'‘Adults have failed’: Youth activists take up fight for U.S. digital rights', date:'Jun 17, 2021', url:'https://jp.reuters.com/article/usa-tech-youth-rights-idINL5N2NZ5AD/' },
+    { outlet:'PR Newswire', title:'Fourth Annual GirlCon Conference Aims to Empower Young Women in STEM', date:'May 17, 2021', url:'https://www.prnewswire.com/news-releases/fourth-annual-girlcon-conference-aims-to-empower-young-women-in-stem-301292051.html' }
   ];
 
   var PASSIONS = [
-    { title:'Bharatanatyam', meta:'Arangetram · 2022', icon:'ic-flower',
-      body:'I’ve danced Bharatanatyam for many years and completed my Arangetram in 2022. After graduating, I went back to India and trained again while running tech workshops — it’s shaped my discipline, confidence, patience, and love of storytelling.',
-      images:[{caption:'arangetram, 2022'}] },
-    { title:'Coffee &amp; Home Café', meta:'one weekend, many refills', icon:'ic-coffee',
-      body:'I love experimenting with coffee, designing menus, and turning small details into thoughtful experiences. I once hosted a home café — coffee, hospitality, and presentation all in one weekend.',
-      images:[{caption:'home café menu'}] },
-    { title:'Running', meta:'new personal challenge', icon:'ic-run',
-      body:'Newly getting into running. Ran the Brooklyn Half in April, training for the Chicago Half in September — with a longer-term goal of a full marathon in 2027.',
-      images:[{caption:'finish line, someday'}] }
+    { title:'Bharatanatyam', meta:'Arangetram · 2022',
+      body:'I’ve danced Bharatanatyam for many years and completed my Arangetram in 2022. After graduating, I went back to India and trained again while running tech workshops — it’s shaped my discipline, confidence, patience, and love of storytelling.' },
+    { title:'Coffee &amp; Home Café', meta:'one weekend, many refills',
+      body:'I love experimenting with coffee, designing menus, and turning small details into thoughtful experiences. I once hosted a home café — coffee, hospitality, and presentation all in one weekend.' },
+    { title:'Running', meta:'new personal challenge',
+      body:'Newly getting into running. Ran the Brooklyn Half in April, training for the Chicago Half in September — with a longer-term goal of a full marathon in 2027.' }
   ];
 
   var SOCIAL_LINKS = [
-    {label:'findvidyaonline@gmail.com', short:'Email', href:'mailto:findvidyaonline@gmail.com'},
-    {label:'linkedin.com/in/vidyab03', short:'LinkedIn', href:'https://www.linkedin.com/in/vidyab03/'},
-    {label:'github.com/vidyabharadwaj03', short:'GitHub', href:'https://github.com/vidyabharadwaj03'}
+    {short:'Email', href:'mailto:findvidyaonline@gmail.com', icon:'ic-mail'},
+    {short:'LinkedIn', href:'https://www.linkedin.com/in/vidyab03/', icon:'ic-linkedin'},
+    {short:'GitHub', href:'https://github.com/vidyabharadwaj03', icon:'ic-github'}
   ];
 
   /* ============ RENDER HELPERS ============ */
@@ -495,25 +475,6 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
     return e;
   }
   function pad2(n){ return n < 10 ? '0' + n : '' + n; }
-
-  function renderFrame(img){
-    // img = {src, caption}. Leave src empty for a placeholder frame;
-    // set src to a real image URL once you have one and it renders as a real photo.
-    var s = el('div','frame');
-    var frame;
-    if(img.src){
-      frame = el('div','frame-img');
-      var image = document.createElement('img');
-      image.src = img.src; image.alt = img.caption || '';
-      frame.appendChild(image);
-    } else {
-      frame = el('div','frame-img','<svg width="26" height="26"><use href="#ic-photo"/></svg><span>photo coming soon</span>');
-    }
-    s.appendChild(frame);
-    if(img.caption){ s.appendChild(el('div','frame-cap', img.caption)); }
-    return s;
-  }
-  function renderFilmstrip(container, photos){ photos.forEach(function(p){ container.appendChild(renderFrame(p)); }); }
 
   function renderProjectBranchItem(p, host){
     var row = el('div','branch-item');
@@ -561,26 +522,8 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
 
   function renderProjects(){
     var host = document.getElementById('projlist');
-    var all = [CURRENT_PROJECT].concat(PREVIOUS_PROJECTS, [DLAB_PROJECT]);
+    var all = [CURRENT_PROJECT, DLAB_PROJECT].concat(PREVIOUS_PROJECTS);
     all.forEach(function(p, i){ renderProjRow(p, i + 1, host); });
-  }
-
-  function renderEducation(){
-    var cw = document.getElementById('coursework');
-    COURSEWORK.forEach(function(c){ cw.appendChild(el('span','plaintag', c)); });
-    var aw = document.getElementById('academic-work');
-    ACADEMIC_WORK.forEach(function(t){
-      var li = document.createElement('li');
-      li.style.cssText = 'padding-left:18px; position:relative; color:var(--text); font-size:.96rem; line-height:1.5;';
-      li.innerHTML = t;
-      var mark = document.createElement('span');
-      mark.textContent = '—'; mark.style.cssText = 'position:absolute; left:0; color:var(--accent);';
-      li.prepend(mark);
-      aw.appendChild(li);
-    });
-    var inv = document.getElementById('involvement');
-    INVOLVEMENT.forEach(function(t){ inv.appendChild(el('span','plaintag', t)); });
-    renderFilmstrip(document.getElementById('uiuc-photos'), UIUC_PHOTOS);
   }
 
   function renderTimelineBranchItem(item, host){
@@ -676,12 +619,9 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
     var host = document.getElementById('hobbies');
     PASSIONS.forEach(function(p){
       var row = el('div','hobby-row');
-      p.images.forEach(function(img){ row.appendChild(renderFrame(img)); });
-      var main = el('div','');
-      main.appendChild(el('h3','', p.title));
-      if(p.meta){ main.appendChild(el('span','meta', p.meta)); }
-      main.appendChild(el('p','', p.body));
-      row.appendChild(main);
+      row.appendChild(el('h3','', p.title));
+      if(p.meta){ row.appendChild(el('span','meta', p.meta)); }
+      row.appendChild(el('p','', p.body));
       host.appendChild(row);
     });
     host.appendChild(el('div','passion-empty', 'more passions coming soon'));
@@ -690,17 +630,16 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
   function renderContactLinks(){
     var host = document.getElementById('contact-links');
     SOCIAL_LINKS.forEach(function(s){
-      var row = el('div','contact-row');
-      row.appendChild(el('span','label', s.short));
-      var a = document.createElement('a'); a.href = s.href; a.textContent = s.label;
+      var a = document.createElement('a');
+      a.className = 'icon-link'; a.href = s.href;
+      a.setAttribute('aria-label', s.short); a.title = s.short;
       if(s.href.indexOf('mailto:') !== 0){ a.target = '_blank'; a.rel = 'noopener'; }
-      row.appendChild(a);
-      host.appendChild(row);
+      a.innerHTML = '<svg><use href="#' + s.icon + '"/></svg>';
+      host.appendChild(a);
     });
   }
 
   renderProjects();
-  renderEducation();
   renderTimeline();
   renderMedia();
   renderHobbies();
@@ -732,6 +671,15 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
     document.querySelectorAll('.idxrow.reveal').forEach(function(elm){ revealObserver.observe(elm); });
   } else {
     document.querySelectorAll('.reveal').forEach(function(elm){ elm.classList.add('is-visible'); });
+  }
+
+  var hero = document.getElementById('hero');
+  if(hero && !reduceMotion && window.matchMedia && window.matchMedia('(hover: hover)').matches){
+    hero.addEventListener('mousemove', function(e){
+      var r = hero.getBoundingClientRect();
+      hero.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+      hero.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+    });
   }
 })();
 </script>
