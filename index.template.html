@@ -179,13 +179,18 @@ details[open] > .idx-body{grid-template-rows:1fr;}
 .branch-item p + p{margin-top:10px;}
 @media (max-width:640px){ .branch-item{padding-left:14px;} }
 
-/* ============ MEDIA LIST ============ */
-.media-list{margin-top:32px; border-top:1px solid var(--border);}
-.media-row{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:6px 20px; padding:16px 14px; margin:0 -14px; border-radius:12px; border-bottom:1px solid var(--border); transition:background .25s var(--ease);}
-.media-row:hover{background:var(--blush);}
-.media-row .outlet{font-family:var(--mono); font-size:.78rem; letter-spacing:.04em; text-transform:uppercase; color:var(--accent); min-width:140px;}
-.media-row .title{font-weight:500; flex:1 1 260px;}
-.media-row .date{font-family:var(--mono); font-size:.76rem; color:var(--text-faint); white-space:nowrap;}
+/* ============ MEDIA GALLERY ============ */
+.media-gallery{display:flex; gap:18px; overflow-x:auto; padding:8px 2px 16px; margin-top:32px; scroll-snap-type:x proximity; scrollbar-width:thin;}
+.media-card{flex:none; width:272px; scroll-snap-align:start; display:block; border:1px solid var(--border); border-radius:16px; padding:22px; text-decoration:none; color:var(--text); transition:transform .4s var(--ease-bounce), border-color .3s var(--ease), background .3s var(--ease);}
+.media-card:hover{transform:translateY(-5px); border-color:var(--accent); background:var(--blush); text-decoration:none;}
+.media-card .meta-row{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;}
+.media-card .outlet{font-family:var(--mono); font-size:.72rem; letter-spacing:.05em; text-transform:uppercase; color:var(--accent);}
+.media-card .date{font-family:var(--mono); font-size:.7rem; color:var(--text-faint);}
+.media-card h3{font-family:var(--display); font-weight:600; font-size:1.05rem; line-height:1.32; margin-top:10px;}
+.media-card .quote{margin-top:14px; padding-top:14px; border-top:1px solid var(--border); font-family:var(--display); font-style:italic; font-size:.92rem; color:var(--text-muted); line-height:1.55;}
+.media-card .quote::before{content:'\201C';}
+.media-card .quote::after{content:'\201D';}
+.media-card .arrow{margin-top:16px; font-family:var(--mono); font-size:.72rem; color:var(--text-faint); letter-spacing:.03em;}
 
 /* ============ BEYOND / HOBBIES ============ */
 .hobby-list{margin-top:32px; display:flex; flex-direction:column; border-top:1px solid var(--border);}
@@ -277,7 +282,7 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
           <h2 style="margin-top:6px;">A few places this work has shown up.</h2>
         </div>
       </div>
-      <div class="media-list" id="media-list"></div>
+      <div class="media-gallery" id="media-list"></div>
     </div>
   </section>
 
@@ -449,7 +454,8 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
     { outlet:'Podcast', title:'Empowering Womxn with Vidya Bharadwaj and Prachi Gyanmote of GirlCon', date:'Oct 2021', url:'https://podcasts.apple.com/dk/podcast/28-empowering-womxn-with-vidya-bharadwaj-and/id1530849370?i=1000538781265&l=da' },
     { outlet:'Lifewire', title:'How GirlCon Fuels Students’ Interests in Tech', date:'Jun 30, 2021', url:'https://www.lifewire.com/how-girlcon-fuels-students-interests-in-tech-5191109' },
     { outlet:'Reuters', title:'‘Adults have failed’: Youth activists take up fight for U.S. digital rights', date:'Jun 17, 2021', url:'https://jp.reuters.com/article/usa-tech-youth-rights-idINL5N2NZ5AD/' },
-    { outlet:'PR Newswire', title:'Fourth Annual GirlCon Conference Aims to Empower Young Women in STEM', date:'May 17, 2021', url:'https://www.prnewswire.com/news-releases/fourth-annual-girlcon-conference-aims-to-empower-young-women-in-stem-301292051.html' }
+    { outlet:'PR Newswire', title:'Fourth Annual GirlCon Conference Aims to Empower Young Women in STEM', date:'May 17, 2021', url:'https://www.prnewswire.com/news-releases/fourth-annual-girlcon-conference-aims-to-empower-young-women-in-stem-301292051.html',
+      quote:'We had 700 participants from 32 countries and this year, we hope to increase participation even further, inspiring the next generation of women in STEM.' }
   ];
 
   var PASSIONS = [
@@ -606,12 +612,16 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
   function renderMedia(){
     var host = document.getElementById('media-list');
     MEDIA.forEach(function(m){
-      var row = el('div','media-row');
-      row.appendChild(el('span','outlet', m.outlet));
-      var a = document.createElement('a'); a.href = m.url; a.target='_blank'; a.rel='noopener'; a.className='title'; a.textContent = m.title;
-      row.appendChild(a);
-      row.appendChild(el('span','date', m.date));
-      host.appendChild(row);
+      var card = document.createElement('a');
+      card.className = 'media-card'; card.href = m.url; card.target = '_blank'; card.rel = 'noopener';
+      var meta = el('div','meta-row');
+      meta.appendChild(el('span','outlet', m.outlet));
+      meta.appendChild(el('span','date', m.date));
+      card.appendChild(meta);
+      card.appendChild(el('h3','', m.title));
+      if(m.quote){ card.appendChild(el('div','quote', m.quote)); }
+      card.appendChild(el('div','arrow', 'Read the piece ↗'));
+      host.appendChild(card);
     });
   }
 
