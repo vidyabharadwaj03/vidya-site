@@ -241,6 +241,9 @@ details[open] > .idx-body{grid-template-rows:1fr;}
 .travel-tooltip.visible{opacity:1; transform:translateY(0) scale(1); pointer-events:auto;}
 .travel-tooltip .tt-name{font-family:var(--display); font-weight:600; font-size:.95rem; display:block;}
 .travel-tooltip .tt-country{display:block; font-family:var(--mono); font-size:.7rem; letter-spacing:.03em; text-transform:uppercase; opacity:.65; margin-top:2px;}
+.travel-tooltip .tt-status{display:inline-block; font-family:var(--mono); font-size:.66rem; letter-spacing:.03em; text-transform:uppercase; margin-top:8px; padding:3px 8px; border-radius:999px;}
+.travel-tooltip .tt-status.visited{background:var(--accent); color:#fff;}
+.travel-tooltip .tt-status.wishlist{background:transparent; border:1px dashed var(--bg); color:var(--bg);}
 .travel-tooltip .tt-caption{display:block; font-style:italic; opacity:.8; margin-top:6px; font-size:.78rem;}
 
 footer.site{padding:28px 0 44px; border-top:1px solid var(--border);}
@@ -365,7 +368,7 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
         <div class="head-text">
           <span class="mono-label">Travel</span>
           <h2 style="margin-top:6px;">Globetrot with me.</h2>
-          <p>Hover (or tap) a marker to see the place &mdash; solid pink for where I&rsquo;ve actually been, dashed outline for where I&rsquo;m dying to go next.</p>
+          <p>I love traveling and want to see the whole world &mdash; here&rsquo;s everywhere I&rsquo;ve been, and everywhere at the top of my list next. Hover (or tap) a marker for the place.</p>
         </div>
       </div>
       <div class="travel-legend reveal">
@@ -1018,8 +1021,10 @@ footer.site .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; g
       var name = el.getAttribute('data-name') || '';
       var country = el.getAttribute('data-country') || '';
       var caption = el.getAttribute('data-caption');
+      var visited = el.classList.contains('visited');
       var html = '<span class="tt-name">' + name + '</span>';
       if(country && country !== name){ html += '<span class="tt-country">' + country + '</span>'; }
+      html += '<span class="tt-status ' + (visited ? 'visited' : 'wishlist') + '">' + (visited ? 'Visited' : 'Want to go') + '</span>';
       if(caption){ html += '<span class="tt-caption">&mdash; ' + caption + '</span>'; }
       travelTooltip.innerHTML = html;
       travelTooltip.classList.add('visible');
