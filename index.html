@@ -38,7 +38,7 @@
 
 /* ============ BASE ============ */
 *{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth; overflow-x:hidden;}
 @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
 body{
   margin:0; background:var(--bg); color:var(--text);
@@ -54,10 +54,8 @@ a:hover{color:var(--accent); text-decoration-color:var(--accent);}
 :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:2px;}
 
 .wrap{max-width:900px; margin:0 auto; padding:0 clamp(20px,5vw,48px);}
-section{padding:clamp(56px,9vw,104px) 0;}
-section + section{border-top:1px solid var(--border);}
-.hero + section{border-top:none;}
-section.has-blob{position:relative; overflow:hidden;}
+section{padding:clamp(48px,7.5vw,88px) 0;}
+section.has-blob{position:relative;}
 section.has-blob > .wrap{position:relative; z-index:1;}
 
 /* ============ FLOATING ACCENT BLOBS ============ */
