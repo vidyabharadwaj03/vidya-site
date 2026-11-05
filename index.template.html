@@ -156,6 +156,10 @@ details[open] > .idx-body{grid-template-rows:1fr;}
 .li-card .li-label{font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent);}
 .li-card p{margin-top:8px; color:var(--text-muted); font-size:.92rem; line-height:1.55;}
 .li-card .li-meta{margin-top:8px; font-family:var(--mono); font-size:.74rem; color:var(--text-faint);}
+.tl-photos{display:flex; flex-wrap:wrap; gap:18px; margin-top:20px;}
+.tl-photos figure{margin:0; width:min(240px,100%);}
+.tl-photos img{display:block; width:100%; height:auto; aspect-ratio:3/4; object-fit:cover; border-radius:16px; background:var(--bg-raised);}
+.tl-photos figcaption{margin-top:8px; font-family:var(--mono); font-size:.7rem; line-height:1.4; color:var(--text-faint);}
 .tl-links{display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;}
 .tl-links .icon-link{width:40px; height:40px;}
 .tl-links .icon-link svg{width:18px; height:18px;}
@@ -564,6 +568,10 @@ details.idxrow,.hobby-row{border-bottom:none;}
         'Recognition: Grainger Engineering Innovation Prize ($5,000), Third Place at Forge, and a 1517 Fund Medici Grant ($1,000) — plus early interest from PR and media professionals.'
       ],
       linkedin:{ label:'From my LinkedIn', summary:'Announced RepuWhiz and its private beta, tied it to the newly signed TAKE IT DOWN Act, and put out a call for co-founders in AI research, PR, or enterprise sales.', date:'2025', url:'https://www.linkedin.com/posts/vidyab03_repuwhiz-activity-7331015724393562112-egth' },
+      photos:[
+        {src:'photos/repuwhiz-talk.jpg', alt:'Vidya pitching RepuWhiz on stage at the Technology Entrepreneur Center, University of Illinois', caption:'Pitching RepuWhiz at the Technology Entrepreneur Center'},
+        {src:'photos/repuwhiz-award.jpg', alt:'Vidya holding a $5,000 Grainger Foundation Prize check with family at the Cozad New Venture Challenge', caption:'Grainger Foundation Prize, Cozad New Venture Challenge'}
+      ],
       links:[ {label:'repuwhiz.com', href:'https://repuwhiz.com'} ]
     },
     { year:'2021–2024', title:'Encode Justice', body:[
@@ -967,6 +975,18 @@ details.idxrow,.hobby-row{border-bottom:none;}
         meta.appendChild(a);
         card.appendChild(meta);
         innerIn.appendChild(card);
+      }
+      if(item.photos){
+        var ph = el('div','tl-photos');
+        item.photos.forEach(function(f){
+          var fig = el('figure','');
+          var img = document.createElement('img');
+          img.src = f.src; img.alt = f.alt; img.loading = 'lazy';
+          fig.appendChild(img);
+          if(f.caption){ fig.appendChild(el('figcaption','', f.caption)); }
+          ph.appendChild(fig);
+        });
+        innerIn.appendChild(ph);
       }
       if(item.links){ innerIn.appendChild(renderLinkIcons(item.links)); }
       if(item.placeholder){ innerIn.appendChild(el('div','tl-placeholder', item.placeholder)); }
