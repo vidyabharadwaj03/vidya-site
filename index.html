@@ -370,11 +370,10 @@ html.modal-open{overflow:hidden;}
 }
 @media (prefers-reduced-motion: reduce){ .hero-photo{transition:none;} }
 .soraa-polaroids{display:flex; gap:12px; margin-top:36px;}
-.polaroid{margin:0; width:132px; padding:7px 7px 10px; background:#fff; border-radius:3px; box-shadow:0 8px 22px -12px rgba(33,30,27,.45); transform:rotate(-3deg); transition:transform .35s var(--ease);}
+.polaroid{margin:0; width:132px; padding:7px 7px 26px; background:#fff; border-radius:3px; box-shadow:0 8px 22px -12px rgba(33,30,27,.45); transform:rotate(-3deg); transition:transform .35s var(--ease);}
 .polaroid + .polaroid{transform:rotate(2.5deg); margin-top:14px;}
 .polaroid:hover{transform:rotate(0) translateY(-4px) scale(1.04);}
 .polaroid img{display:block; width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:1px;}
-.polaroid figcaption{margin-top:7px; font-family:var(--mono); font-size:.6rem; line-height:1.3; color:#6B6459; text-align:center;}
 @media (min-width:980px){
   #soraa .wrap{position:relative;}
   .soraa-polaroids{position:absolute; right:clamp(20px,5vw,48px); top:8px; margin-top:0; gap:0;}
@@ -663,7 +662,7 @@ html.modal-open{overflow:hidden;}
         {label:'Instagram', href:'https://www.instagram.com/avtarhumancapitaltrust/'}
       ]
     },
-    { year:'2025', title:'RepuWhiz', blurb:'Deepfake detection for PR teams. Grainger Prize winner.', body:[
+    { year:'2025', title:'RepuWhiz', cover:'photos/repuwhiz-cover.jpg', blurb:'Deepfake detection for PR teams. Grainger Prize winner.', body:[
         [
           'Deepfake-detection platform for PR and communications teams',
           'Spots suspicious media, sends alerts, preserves evidence, and supports takedowns',
@@ -1106,7 +1105,6 @@ html.modal-open{overflow:hidden;}
         var img = document.createElement('img');
         img.src = f.src; img.alt = f.alt; img.loading = 'lazy';
         fig.appendChild(img);
-        fig.appendChild(el('figcaption','', f.caption));
         pol.appendChild(fig);
       });
       wrap.appendChild(pol);
@@ -1210,7 +1208,7 @@ html.modal-open{overflow:hidden;}
     TIMELINE.forEach(function(item){
       host.appendChild(makeCard({
         title:item.title, meta:item.year, blurb:item.blurb,
-        cover:(item.photos && item.photos[0]) ? item.photos[0].src : null,
+        cover:item.cover || ((item.photos && item.photos[0]) ? item.photos[0].src : null),
         onOpen:function(){
           openDetail(item.title, item.year, function(inner){
             renderBody(item.body, inner);
