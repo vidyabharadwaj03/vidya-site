@@ -739,7 +739,12 @@ html.modal-open{overflow:hidden;}
     { title:'Coffee &amp; Home Café', meta:'one weekend, many refills',
       body:'I love experimenting with coffee and designing menus. I once hosted a home café for a weekend.' },
     { title:'Running', meta:'new personal challenge',
-      body:'Ran the Brooklyn Half in April, training for the Chicago Half in September, with a full marathon in 2027 as the goal.' }
+      body:'Ran the Brooklyn Half in April and the Chicago Half in September, with a full marathon in 2027 as the goal.',
+      photos:[
+        {src:'photos/running-brooklyn-half.jpg', alt:'Runners crossing the finish line under the Brooklyn Experience Half Marathon banner', caption:'Brooklyn Half Marathon'},
+        {src:'photos/running-cheer-squad.jpg', alt:'Six friends holding handmade cheer signs after a half marathon', caption:'Cheer squad, Chicago Half'},
+        {src:'photos/running-chicago-start.jpg', alt:'A crowd of runners facing the start line of the Chicago Half Marathon', caption:'Chicago Half start line'}
+      ] }
   ];
 
   var TRAVEL_LOCATIONS = [
@@ -1191,6 +1196,7 @@ html.modal-open{overflow:hidden;}
       row.appendChild(el('h3','', p.title));
       if(p.meta){ row.appendChild(el('span','meta', p.meta)); }
       row.appendChild(el('p','', p.body));
+      if(p.photos){ row.appendChild(renderPhotos(p.photos)); }
       host.appendChild(row);
     });
   }
