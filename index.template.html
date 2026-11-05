@@ -323,6 +323,18 @@ details.idxrow,.hobby-row{border-bottom:none;}
 .branch{border-top:none;}
 .branch-item{border-bottom:none; border-left:none;}
 .media-card .quote{border-top:none; padding-top:0;}
+.cards .card-title{font-size:1.65rem;}
+#projlist .card-text{min-height:220px; padding:30px 32px 32px;}
+#timeline{grid-template-columns:1fr;}
+#timeline .card{flex-direction:row; min-height:280px;}
+#timeline .card-cover{width:46%; flex:none; aspect-ratio:auto; height:auto; object-fit:cover;}
+#timeline .card-text{padding:34px 36px; justify-content:center;}
+@media (max-width:700px){
+  #timeline .card{flex-direction:column; min-height:0;}
+  #timeline .card-cover{width:100%; aspect-ratio:16/10;}
+  #timeline .card-text{padding:24px 26px 26px;}
+  #projlist .card-text{padding:26px;}
+}
 .cards{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; margin-top:44px;}
 @media (max-width:700px){ .cards{grid-template-columns:1fr;} }
 .card{display:flex; flex-direction:column; text-align:left; font:inherit; color:inherit; padding:0; border:none; border-radius:22px; overflow:hidden; cursor:pointer; background:var(--bg-raised); transition:transform .35s var(--ease), box-shadow .35s var(--ease), background .3s var(--ease);}
@@ -473,8 +485,8 @@ html.modal-open{overflow:hidden;}
       <div class="section-head reveal">
         <span class="num">02</span>
         <div class="head-text">
-          <span class="mono-label">Technology activism &amp; impact</span>
-          <h2 style="margin-top:6px;">How I went from teaching kids to code, to arguing about AI policy in D.C.</h2>
+          <span class="mono-label">Activism</span>
+          <h2 style="margin-top:6px;">Impact &amp; advocacy.</h2>
         </div>
       </div>
       <div class="cards" id="timeline"></div>
