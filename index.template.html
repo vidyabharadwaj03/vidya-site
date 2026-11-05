@@ -323,6 +323,30 @@ details.idxrow,.hobby-row{border-bottom:none;}
 .branch{border-top:none;}
 .branch-item{border-bottom:none; border-left:none;}
 .media-card .quote{border-top:none; padding-top:0;}
+.cards{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; margin-top:44px;}
+@media (max-width:700px){ .cards{grid-template-columns:1fr;} }
+.card{display:flex; flex-direction:column; text-align:left; font:inherit; color:inherit; padding:0; border:none; border-radius:22px; overflow:hidden; cursor:pointer; background:var(--bg-raised); transition:transform .35s var(--ease), box-shadow .35s var(--ease), background .3s var(--ease);}
+.card:hover{transform:translateY(-4px); background:var(--blush); box-shadow:0 18px 40px -28px rgba(33,30,27,.5);}
+.card:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+.card-cover{display:block; width:100%; aspect-ratio:16/10; object-fit:cover; object-position:center 30%;}
+.card-text{display:flex; flex-direction:column; gap:6px; padding:24px 26px 26px; flex:1; min-height:170px;}
+.card-meta{font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; color:var(--text-faint);}
+.card-title{font-family:var(--display); font-weight:500; font-size:1.4rem; line-height:1.2;}
+.card-blurb{color:var(--text-muted); font-size:.95rem; line-height:1.55;}
+.card-go{margin-top:auto; padding-top:14px; font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent);}
+dialog.detail{border:none; padding:0; width:min(760px,92vw); max-height:86vh; margin:auto; border-radius:26px; background:var(--bg); color:var(--text); box-shadow:0 40px 100px -30px rgba(0,0,0,.55); overflow:auto;}
+dialog.detail::backdrop{background:rgba(28,22,24,.45); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);}
+dialog.detail[open]{animation:dlg-in .3s var(--ease);}
+@keyframes dlg-in{from{opacity:0; transform:translateY(14px) scale(.98);}}
+@media (prefers-reduced-motion: reduce){ dialog.detail[open]{animation:none;} .card{transition:none;} }
+.detail-close{position:sticky; top:14px; float:right; margin:14px 14px 0 0; width:36px; height:36px; border-radius:50%; border:1px solid var(--border-strong); background:var(--bg); color:var(--text-muted); font-size:1.3rem; line-height:1; cursor:pointer; z-index:2; padding:0; transition:background .25s var(--ease), color .25s var(--ease);}
+.detail-close:hover{background:var(--accent); color:#fff; border-color:var(--accent);}
+#detail-body{padding:34px clamp(22px,5vw,44px) 40px;}
+.detail-head h3{font-size:clamp(1.7rem,3.6vw,2.3rem); font-weight:500; line-height:1.15; padding-right:40px;}
+.detail-meta{display:block; margin-top:6px; font-family:var(--mono); font-size:.76rem; color:var(--text-faint);}
+.detail-inner{margin-top:22px;}
+.detail-inner > p{color:var(--text); line-height:1.65; max-width:60ch;}
+html.modal-open{overflow:hidden;}
 .soraa-polaroids{display:flex; gap:12px; margin-top:36px;}
 .polaroid{margin:0; width:132px; padding:7px 7px 10px; background:#fff; border-radius:3px; box-shadow:0 8px 22px -12px rgba(33,30,27,.45); transform:rotate(-3deg); transition:transform .35s var(--ease);}
 .polaroid + .polaroid{transform:rotate(2.5deg); margin-top:14px;}
@@ -426,7 +450,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
           <h2 style="margin-top:6px;">What I&rsquo;ve built.</h2>
         </div>
       </div>
-      <div class="idxlist" id="projlist"></div>
+      <div class="cards" id="projlist"></div>
     </div>
   </section>
 
@@ -440,7 +464,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
           <h2 style="margin-top:6px;">How I went from teaching kids to code, to arguing about AI policy in D.C.</h2>
         </div>
       </div>
-      <div class="idxlist" id="timeline"></div>
+      <div class="cards" id="timeline"></div>
     </div>
   </section>
 
@@ -519,6 +543,11 @@ details.idxrow,.hobby-row{border-bottom:none;}
 
 </main>
 
+<dialog class="detail" id="detail" aria-label="Details">
+  <button class="detail-close" id="detailClose" type="button" aria-label="Close">&times;</button>
+  <div id="detail-body"></div>
+</dialog>
+
 <div class="travel-tooltip" id="travelTooltip" role="tooltip" aria-hidden="true"></div>
 
 <footer class="site">
@@ -585,7 +614,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
   ];
 
   var TIMELINE = [
-    { year:'2026', title:'Project Puthri, India', body:[
+    { year:'2026', title:'Project Puthri, India', blurb:'AI and career workshops for underprivileged girls and rural students.', body:[
         [
           'Workshops with Project Puthri, a nonprofit supporting underprivileged girls and rural students',
           'Colleges included DMI, Panimalar, and Dhanalakshmi Srinivasan',
@@ -609,7 +638,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
         {label:'Instagram', href:'https://www.instagram.com/avtarhumancapitaltrust/'}
       ]
     },
-    { year:'2025', title:'RepuWhiz', body:[
+    { year:'2025', title:'RepuWhiz', blurb:'Deepfake detection for PR teams. Grainger Prize winner.', body:[
         [
           'Deepfake-detection platform for PR and communications teams',
           'Spots suspicious media, sends alerts, preserves evidence, and supports takedowns',
@@ -626,7 +655,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
         {label:'LinkedIn post', href:'https://www.linkedin.com/posts/vidyab03_repuwhiz-activity-7331015724393562112-egth'}
       ]
     },
-    { year:'2021–2024', title:'Encode Justice', body:[
+    { year:'2021–2024', title:'Encode Justice', blurb:'AI policy education and events led by youth.', body:[
         'Led education and events on AI governance and digital safety.'
       ],
       photos:[
@@ -671,7 +700,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
           ] }
       ]
     },
-    { year:'2020–present', title:'GirlCon', body:[
+    { year:'2020–present', title:'GirlCon', blurb:'A student-run tech conference. Now on the Board.', body:[
         [
           'Where my tech activism started',
           'Co-Director: led programming, partnerships, sponsors, and a team of 100+ students',
@@ -920,32 +949,66 @@ details.idxrow,.hobby-row{border-bottom:none;}
     host.appendChild(row);
   }
 
-  function renderProjRow(p, n, hostList){
-    var d = document.createElement('details');
-    d.className = 'idxrow';
-    var summary = document.createElement('summary');
-    summary.appendChild(el('span','idx-n', pad2(n)));
-    var main = el('div','idx-main');
-    main.appendChild(el('span','idx-title', p.name));
-    main.appendChild(el('div','idx-overview', p.overview));
-    summary.appendChild(main);
-    summary.appendChild(el('span','idx-meta', p.date || ''));
-    summary.appendChild(el('span','idx-toggle'));
-    var body = el('div','idx-body');
-    var inner = el('div','idx-body-inner');
-    var innerIn = el('div','in','<p>' + p.detail + '</p>');
-    var tags = el('div','idx-tags');
-    (p.tags||[]).forEach(function(t){ tags.appendChild(el('span','', t)); });
-    innerIn.appendChild(tags);
-    if(p.branch){
-      var branchHost = el('div','branch');
-      p.branch.forEach(function(sub){ renderProjectBranchItem(sub, branchHost); });
-      innerIn.appendChild(branchHost);
+  /* ---- detail dialog + cards ---- */
+  var dlg = document.getElementById('detail');
+  var dlgBody = document.getElementById('detail-body');
+  function openDetail(title, meta, build){
+    dlgBody.innerHTML = '';
+    var head = el('div','detail-head');
+    head.appendChild(el('h3','', title));
+    if(meta){ head.appendChild(el('span','detail-meta', meta)); }
+    dlgBody.appendChild(head);
+    var inner = el('div','detail-inner');
+    build(inner);
+    dlgBody.appendChild(inner);
+    if(dlg.showModal){ dlg.showModal(); } else { dlg.setAttribute('open',''); }
+    document.documentElement.classList.add('modal-open');
+    dlg.scrollTop = 0;
+  }
+  function closeDetail(){ if(dlg.close){ dlg.close(); } else { dlg.removeAttribute('open'); } }
+  if(dlg){
+    dlg.addEventListener('close', function(){ document.documentElement.classList.remove('modal-open'); dlgBody.innerHTML = ''; });
+    dlg.addEventListener('click', function(e){ if(e.target === dlg){ closeDetail(); } });
+    document.getElementById('detailClose').addEventListener('click', closeDetail);
+  }
+
+  function makeCard(o){
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'card reveal';
+    if(o.cover){
+      var im = document.createElement('img');
+      im.className = 'card-cover'; im.src = o.cover; im.alt = ''; im.loading = 'lazy';
+      b.appendChild(im);
     }
-    inner.appendChild(innerIn);
-    body.appendChild(inner);
-    d.appendChild(summary); d.appendChild(body);
-    hostList.appendChild(d);
+    var t = el('div','card-text');
+    if(o.meta){ t.appendChild(el('span','card-meta', o.meta)); }
+    t.appendChild(el('h3','card-title', o.title));
+    if(o.blurb){ t.appendChild(el('p','card-blurb', o.blurb)); }
+    t.appendChild(el('span','card-go', 'View \u2197'));
+    b.appendChild(t);
+    b.addEventListener('click', o.onOpen);
+    return b;
+  }
+
+  function projectCard(p){
+    return makeCard({
+      title:p.name, meta:p.date, blurb:p.overview,
+      onOpen:function(){
+        openDetail(p.name, p.date, function(inner){
+          inner.appendChild(el('p','', p.detail));
+          if(p.tags && p.tags.length){
+            var tags = el('div','idx-tags');
+            p.tags.forEach(function(t){ tags.appendChild(el('span','', t)); });
+            inner.appendChild(tags);
+          }
+          if(p.branch){
+            var branchHost = el('div','branch');
+            p.branch.forEach(function(sub){ renderProjectBranchItem(sub, branchHost); });
+            inner.appendChild(branchHost);
+          }
+        });
+      }
+    });
   }
 
   var SORAA_PHOTOS = [
@@ -987,7 +1050,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
   function renderProjects(){
     var host = document.getElementById('projlist');
     var all = [DLAB_PROJECT].concat(PREVIOUS_PROJECTS);
-    all.forEach(function(p, i){ renderProjRow(p, i + 1, host); });
+    all.forEach(function(p){ host.appendChild(projectCard(p)); });
   }
 
   function linkIconId(l){
@@ -1078,44 +1141,24 @@ details.idxrow,.hobby-row{border-bottom:none;}
 
   function renderTimeline(){
     var host = document.getElementById('timeline');
-    TIMELINE.forEach(function(item, i){
-      var tl = document.createElement('details');
-      tl.className = 'idxrow reveal';
-      var summary = document.createElement('summary');
-      summary.appendChild(el('span','idx-n', pad2(i + 1)));
-      var main = el('div','idx-main');
-      main.appendChild(el('span','idx-title', item.title));
-      summary.appendChild(main);
-      summary.appendChild(el('span','idx-meta', item.year));
-      summary.appendChild(el('span','idx-toggle'));
-      tl.appendChild(summary);
-      var body = el('div','idx-body');
-      var inner = el('div','idx-body-inner');
-      var innerIn = el('div','in');
-      renderBody(item.body, innerIn);
-      if(item.linkedin){
-        var card = el('div','li-card');
-        card.appendChild(el('span','li-label', item.linkedin.label));
-        card.appendChild(el('p','', item.linkedin.summary));
-        var meta = el('div','li-meta', item.linkedin.date + ' · ');
-        var a = document.createElement('a'); a.href = item.linkedin.url; a.target='_blank'; a.rel='noopener'; a.textContent = 'view original post ↗';
-        meta.appendChild(a);
-        card.appendChild(meta);
-        innerIn.appendChild(card);
-      }
-      if(item.photos){ innerIn.appendChild(renderPhotos(item.photos, item.photosStill)); }
-      if(item.links){ innerIn.appendChild(renderLinkIcons(item.links)); }
-      if(item.placeholder){ innerIn.appendChild(el('div','tl-placeholder', item.placeholder)); }
-      if(item.branch){
-        if(item.branchLabel){ innerIn.appendChild(el('span','mono-label branch-label', item.branchLabel)); }
-        var branchHost = el('div','branch');
-        item.branch.forEach(function(sub){ renderTimelineBranchItem(sub, branchHost); });
-        innerIn.appendChild(branchHost);
-      }
-      inner.appendChild(innerIn);
-      body.appendChild(inner);
-      tl.appendChild(body);
-      host.appendChild(tl);
+    TIMELINE.forEach(function(item){
+      host.appendChild(makeCard({
+        title:item.title, meta:item.year, blurb:item.blurb,
+        cover:(item.photos && item.photos[0]) ? item.photos[0].src : null,
+        onOpen:function(){
+          openDetail(item.title, item.year, function(inner){
+            renderBody(item.body, inner);
+            if(item.photos){ inner.appendChild(renderPhotos(item.photos, item.photosStill)); }
+            if(item.links){ inner.appendChild(renderLinkIcons(item.links)); }
+            if(item.branch){
+              if(item.branchLabel){ inner.appendChild(el('span','mono-label branch-label', item.branchLabel)); }
+              var branchHost = el('div','branch');
+              item.branch.forEach(function(sub){ renderTimelineBranchItem(sub, branchHost); });
+              inner.appendChild(branchHost);
+            }
+          });
+        }
+      }));
     });
   }
 
