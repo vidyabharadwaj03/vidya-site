@@ -749,6 +749,20 @@ html.modal-open{overflow:hidden;}
   var PASSIONS = [
     { title:'Bharatanatyam', meta:'Arangetram · 2022',
       body:'Danced for many years and completed my Arangetram in 2022. It shaped my discipline, confidence, and love of storytelling.' },
+    { title:'Modeling', meta:'CFE fashion show',
+      body:'Walked in the CFE fashion show.',
+      photos:[
+        {src:'photos/modeling-runway-low.jpg', alt:'Vidya on the runway in a white crop top, tulle skirt, and white cat-eye sunglasses', caption:'CFE fashion show'},
+        {src:'photos/modeling-runway-white.jpg', alt:'Vidya walking the runway in a white tulle skirt with a collage waistband', caption:'On the runway'},
+        {src:'photos/modeling-group.jpg', alt:'Vidya posing with two other models in embroidered and painted outfits', caption:'With fellow models'},
+        {src:'photos/modeling-runway-brown.jpg', alt:'Vidya on the runway in a lace top and brown beaded skirt', caption:'CFE fashion show'},
+        {src:'photos/modeling-runway-brown-2.jpg', alt:'Vidya posing on the runway in a lace top and brown beaded skirt', caption:'CFE fashion show'},
+        {src:'photos/modeling-crouch.jpg', alt:'Vidya crouching by a window in a lace top and brown beaded skirt', caption:'Photo shoot'}
+      ],
+      links:[
+        {label:'design.by.reha on Instagram', href:'https://www.instagram.com/design.by.reha/'},
+        {label:'Drea Studio photo gallery', href:'https://dreastudioco.pixieset.com/vidya/'}
+      ] },
     { title:'Coffee &amp; Home Café', meta:'one weekend, many refills',
       body:'I love experimenting with coffee and designing menus. I once hosted a home café for a weekend.' },
     { title:'Running', meta:'new personal challenge',
@@ -1076,7 +1090,7 @@ html.modal-open{overflow:hidden;}
     if(h.indexOf('instagram.com') > -1) return 'ic-instagram';
     if(h.indexOf('linkedin.com') > -1) return 'ic-linkedin';
     if(h.indexOf('podcasts.apple.com') > -1) return 'ic-mic';
-    if(/puthri\.org|girlcon\.org|repuwhiz\.com|encodeai\.org|joinsoraa\.com/.test(h)) return 'ic-globe';
+    if(/puthri\.org|girlcon\.org|pixieset\.com|repuwhiz\.com|encodeai\.org|joinsoraa\.com/.test(h)) return 'ic-globe';
     return 'ic-article';
   }
   function renderLinkIcons(links){
@@ -1210,6 +1224,7 @@ html.modal-open{overflow:hidden;}
       if(p.meta){ row.appendChild(el('span','meta', p.meta)); }
       row.appendChild(el('p','', p.body));
       if(p.photos){ row.appendChild(renderPhotos(p.photos)); }
+      if(p.links){ row.appendChild(renderLinkIcons(p.links)); }
       host.appendChild(row);
     });
   }
