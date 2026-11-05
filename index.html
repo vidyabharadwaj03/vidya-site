@@ -156,6 +156,12 @@ details[open] > .idx-body{grid-template-rows:1fr;}
 .li-card .li-label{font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent);}
 .li-card p{margin-top:8px; color:var(--text-muted); font-size:.92rem; line-height:1.55;}
 .li-card .li-meta{margin-top:8px; font-family:var(--mono); font-size:.74rem; color:var(--text-faint);}
+.tl-bullets{margin:0; padding:0; list-style:none; max-width:64ch;}
+.tl-bullets li{position:relative; padding-left:18px; color:var(--text); font-size:.95rem; line-height:1.6;}
+.tl-bullets li + li{margin-top:6px;}
+.tl-bullets li::before{content:''; position:absolute; left:2px; top:.7em; width:5px; height:5px; border-radius:50%; background:var(--accent);}
+.branch-label{display:block; margin-top:26px;}
+.branch-item .tl-bullets li{font-size:.9rem; color:var(--text-muted);}
 .tl-photos{margin-top:20px; overflow:hidden; -webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent); mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);}
 .tl-photos.still{-webkit-mask-image:none; mask-image:none;}
 .tl-photos-track{display:flex; gap:14px; width:max-content; animation:photo-scroll 40s linear infinite;}
@@ -462,7 +468,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
         <div class="head-text">
           <span class="mono-label">Travel</span>
           <h2 style="margin-top:6px;">Globetrot with me.</h2>
-          <p>I hope to see the whole world someday &mdash; here are some of the places I&rsquo;ve explored and a few of the destinations I&rsquo;m dreaming about next. Hover (or tap) a marker for the place.</p>
+          <p>I hope to see the whole world someday. Here are some of the places I&rsquo;ve explored and a few of the destinations I&rsquo;m dreaming about next. Hover (or tap) a marker for the place.</p>
         </div>
       </div>
       <div class="travel-legend reveal">
@@ -492,7 +498,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
       <div class="reveal">
         <span class="mono-label">Say hello</span>
         <h2 style="margin-top:6px;">Let&rsquo;s talk.</h2>
-        <p class="lede">I&rsquo;d love to hear from you &mdash; whether it&rsquo;s a speaking invitation, a startup idea, or a collaboration. I&rsquo;m always happy to meet people building thoughtful technology, working on digital safety, or expanding access to education.</p>
+        <p class="lede">I&rsquo;d love to hear from you, whether it&rsquo;s a speaking invitation, a startup idea, or a collaboration. I&rsquo;m always happy to meet people building thoughtful technology, working on digital safety, or expanding access to education.</p>
         <div class="icon-links" id="contact-links"></div>
       </div>
     </div>
@@ -567,7 +573,12 @@ details.idxrow,.hobby-row{border-bottom:none;}
 
   var TIMELINE = [
     { year:'2026', title:'Project Puthri, India', body:[
-        'Ran workshops with Project Puthri, a nonprofit supporting underprivileged girls and rural students, at engineering colleges including DMI, Panimalar, and Dhanalakshmi Srinivasan. I taught AI principles, responsible tech, and professional development &mdash; in Tamil, since many students didn&rsquo;t speak English.'
+        [
+          'Workshops with Project Puthri, a nonprofit supporting underprivileged girls and rural students',
+          'Colleges included DMI, Panimalar, and Dhanalakshmi Srinivasan',
+          'Taught AI principles, responsible tech, and professional development',
+          'Taught in Tamil, since many students didn&rsquo;t speak English'
+        ]
       ],
       links:[
         {label:'puthri.org', href:'https://www.puthri.org'},
@@ -575,7 +586,11 @@ details.idxrow,.hobby-row{border-bottom:none;}
       ]
     },
     { year:'2025', title:'RepuWhiz', body:[
-        'A deepfake-detection platform for PR and communications teams: spotting suspicious media, sending alerts, preserving evidence, and supporting takedowns. Won the Grainger Engineering Innovation Prize ($5,000), Third Place at Forge, and a 1517 Fund Medici Grant ($1,000).'
+        [
+          'Deepfake-detection platform for PR and communications teams',
+          'Spots suspicious media, sends alerts, preserves evidence, and supports takedowns',
+          'Won the Grainger Engineering Innovation Prize ($5,000), Third Place at Forge, and a 1517 Fund Medici Grant ($1,000)'
+        ]
       ],
       photosStill:true,
       photos:[
@@ -601,6 +616,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
         {src:'photos/encode-india-iitm.jpg', alt:'Vidya outside the Indian Institute of Technology Madras', caption:'Encode India: IIT Madras'}
       ],
       links:[ {label:'encodeai.org', href:'https://encodeai.org'} ],
+      branchLabel:'Highlights',
       branch:[
         { year:'Nov 2024', title:'Empowering Voices Summit, Washington D.C.', body:[
             'Co-organized a summit on deepfake imagery and youth safety.'
@@ -608,7 +624,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
           links:[ {label:'LinkedIn post', href:'https://www.linkedin.com/posts/vidyab03_join-us-in-dc-this-tuesday-november-19th-activity-7263727282559557633-QCzj'} ]
         },
         { year:'2023', title:'Code.org CSEdCon, Las Vegas', body:[
-            'TeachAI steering committee; spoke on AI education policy.'
+            'TeachAI steering committee and a panel on AI education policy.'
           ],
           links:[ {label:'LinkedIn post', href:'https://www.linkedin.com/posts/vidyab03_teachai-activity-7130703942736367618-3Khg'} ]
         },
@@ -617,22 +633,27 @@ details.idxrow,.hobby-row{border-bottom:none;}
           ],
           links:[ {label:'Read the article', href:'https://jp.reuters.com/article/usa-tech-youth-rights-idINL5N2NZ5AD/'} ]
         },
-        { year:'—', title:'Encode India Program', body:[
+        { year:'', title:'Encode India Program', body:[
             'Workshops for engineering students on responsible AI.'
           ] },
-        { year:'—', title:'JobsFirstNYC &amp; the NYC Bar Association', body:[
+        { year:'', title:'JobsFirstNYC &amp; the NYC Bar Association', body:[
             'Talk on representation in tech.'
           ] },
-        { year:'—', title:'Brooklyn Technical High School', body:[
+        { year:'', title:'Brooklyn Technical High School', body:[
             'AI and bias workshops for high-schoolers.'
           ] },
-        { year:'—', title:'Museum of Science, Boston', body:[
+        { year:'', title:'Museum of Science, Boston', body:[
             'Talk on AI education and youth advocacy.'
           ] }
       ]
     },
     { year:'2020–present', title:'GirlCon', body:[
-        'Where my tech activism started. I led as Co-Director &mdash; programming, partnerships, sponsors, and a team of 100+ students &mdash; for a conference reaching hundreds worldwide. Now on the Board of Directors.'
+        [
+          'Where my tech activism started',
+          'Co-Director: led programming, partnerships, sponsors, and a team of 100+ students',
+          'Conference reached hundreds of attendees worldwide',
+          'Now on the Board of Directors'
+        ]
       ],
       photos:[
         {src:'photos/girlcon-2025-team.jpg', alt:'The GirlCon 2025 team in matching shirts in front of the GirlCon 2025 banner', caption:'The GirlCon 2025 team'},
@@ -641,6 +662,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
         {src:'photos/girlcon-rooftop.jpg', alt:'Selfie of Vidya with the GirlCon team on a rooftop at sunset with a city skyline behind', caption:'With the team'}
       ],
       links:[
+        {label:'girlcon.org', href:'https://girlcon.org'},
         {label:'Lifewire feature', href:'https://www.lifewire.com/how-girlcon-fuels-students-interests-in-tech-5191109'},
         {label:'Plan International USA feature', href:'https://www.planusa.org/blog/in-her-own-words-cracking-the-code-for-equality-in-ai-1937/'},
         {label:'PR Newswire feature', href:'https://www.prnewswire.com/news-releases/fourth-annual-girlcon-conference-aims-to-empower-young-women-in-stem-301292051.html'},
@@ -931,7 +953,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
     if(h.indexOf('instagram.com') > -1) return 'ic-instagram';
     if(h.indexOf('linkedin.com') > -1) return 'ic-linkedin';
     if(h.indexOf('podcasts.apple.com') > -1) return 'ic-mic';
-    if(/puthri\.org|repuwhiz\.com|encodeai\.org|joinsoraa\.com/.test(h)) return 'ic-globe';
+    if(/puthri\.org|girlcon\.org|repuwhiz\.com|encodeai\.org|joinsoraa\.com/.test(h)) return 'ic-globe';
     return 'ic-article';
   }
   function renderLinkIcons(links){
@@ -959,6 +981,19 @@ details.idxrow,.hobby-row{border-bottom:none;}
   // One photo (or none to loop) sits still; two or more scroll as a looping gallery.
   // The track holds the set twice back-to-back so translateX(-50%) loops seamlessly;
   // the set is repeated until each half is wide enough to cover the row.
+  // body entries are paragraphs (strings) or bullet lists (arrays of strings)
+  function renderBody(body, host){
+    (body||[]).forEach(function(b){
+      if(Array.isArray(b)){
+        var ul = el('ul','tl-bullets');
+        b.forEach(function(t){ ul.appendChild(el('li','', t)); });
+        host.appendChild(ul);
+      } else {
+        host.appendChild(el('p','', b));
+      }
+    });
+  }
+
   function renderPhotos(photos, still){
     var view = el('div','tl-photos');
     var track = el('div','tl-photos-track');
@@ -982,7 +1017,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
     head.appendChild(el('span','branch-item-title', item.title));
     if(item.year){ head.appendChild(el('span','branch-item-date', item.year)); }
     row.appendChild(head);
-    (item.body||[]).forEach(function(p){ row.appendChild(el('p','', p)); });
+    renderBody(item.body, row);
     if(item.linkedin){
       var card = el('div','li-card');
       card.appendChild(el('span','li-label', item.linkedin.label));
@@ -1015,7 +1050,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
       var body = el('div','idx-body');
       var inner = el('div','idx-body-inner');
       var innerIn = el('div','in');
-      item.body.forEach(function(p){ innerIn.appendChild(el('p','', p)); });
+      renderBody(item.body, innerIn);
       if(item.linkedin){
         var card = el('div','li-card');
         card.appendChild(el('span','li-label', item.linkedin.label));
@@ -1030,6 +1065,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
       if(item.links){ innerIn.appendChild(renderLinkIcons(item.links)); }
       if(item.placeholder){ innerIn.appendChild(el('div','tl-placeholder', item.placeholder)); }
       if(item.branch){
+        if(item.branchLabel){ innerIn.appendChild(el('span','mono-label branch-label', item.branchLabel)); }
         var branchHost = el('div','branch');
         item.branch.forEach(function(sub){ renderTimelineBranchItem(sub, branchHost); });
         innerIn.appendChild(branchHost);
@@ -1183,7 +1219,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
       var html = '<span class="tt-name">' + name + '</span>';
       if(country && country !== name){ html += '<span class="tt-country">' + country + '</span>'; }
       html += '<span class="tt-status ' + (visited ? 'visited' : 'wishlist') + '">' + (visited ? 'Visited' : 'Want to go') + '</span>';
-      if(caption){ html += '<span class="tt-caption">&mdash; ' + caption + '</span>'; }
+      if(caption){ html += '<span class="tt-caption">' + caption + '</span>'; }
       travelTooltip.innerHTML = html;
       travelTooltip.classList.add('visible');
       markers.forEach(function(m){ m.classList.toggle('active', m === el); });
