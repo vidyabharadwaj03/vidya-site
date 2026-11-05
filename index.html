@@ -157,8 +157,8 @@ details[open] > .idx-body{grid-template-rows:1fr;}
 .li-card p{margin-top:8px; color:var(--text-muted); font-size:.92rem; line-height:1.55;}
 .li-card .li-meta{margin-top:8px; font-family:var(--mono); font-size:.74rem; color:var(--text-faint);}
 .tl-photos{display:flex; flex-wrap:wrap; gap:18px; margin-top:20px;}
-.tl-photos figure{margin:0; width:min(240px,100%);}
-.tl-photos img{display:block; width:100%; height:auto; aspect-ratio:3/4; object-fit:cover; border-radius:16px; background:var(--bg-raised);}
+.tl-photos figure{margin:0; max-width:100%;}
+.tl-photos img{display:block; height:240px; width:auto; max-width:100%; object-fit:cover; border-radius:16px; background:var(--bg-raised);}
 .tl-photos figcaption{margin-top:8px; font-family:var(--mono); font-size:.7rem; line-height:1.4; color:var(--text-faint);}
 .tl-links{display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;}
 .tl-links .icon-link{width:40px; height:40px;}
@@ -582,7 +582,10 @@ details.idxrow,.hobby-row{border-bottom:none;}
         { year:'Nov 2024', title:'Empowering Voices Summit, Washington D.C.', body:[
             'I helped organize and run this summit on non-consensual deepfake imagery, youth safety, digital dignity, technology-facilitated abuse, and the legal, educational, and platform responses needed. It brought together advocates, policymakers, civil-society experts, educators, and tech representatives — including Francesca Mani, Senator Dick Durbin, Senator Ted Cruz, Senator Amy Klobuchar, Mary Anne Franks, Yiota Souras, Omny Miranda Martone, Stefan Turkheimer, and representatives from the Kent School and Snap Inc.'
           ],
-          linkedin:{ label:'From my LinkedIn', summary:'Invited people to the D.C. summit on non-consensual deepfake imagery, featuring Francesca Mani alongside Senators Durbin, Cruz, and Klobuchar — reshared with a note that 15% of students already know a victim in their own school.', date:'Nov 2024', url:'https://www.linkedin.com/posts/vidyab03_join-us-in-dc-this-tuesday-november-19th-activity-7263727282559557633-QCzj' }
+          linkedin:{ label:'From my LinkedIn', summary:'Invited people to the D.C. summit on non-consensual deepfake imagery, featuring Francesca Mani alongside Senators Durbin, Cruz, and Klobuchar — reshared with a note that 15% of students already know a victim in their own school.', date:'Nov 2024', url:'https://www.linkedin.com/posts/vidyab03_join-us-in-dc-this-tuesday-november-19th-activity-7263727282559557633-QCzj' },
+          photos:[
+            {src:'photos/dc-summit-group.jpg', alt:'Group photo in front of an Encode Justice banner at the Empowering Voices Summit in Washington, D.C.', caption:'At the Empowering Voices Summit with Dorota and Francesca Mani'}
+          ]
         },
         { year:'2024', title:'Meeting Dorota and Francesca Mani', body:[
             'Meeting Dorota and Francesca Mani brought the urgency of deepfake policy into sharper focus for me. Their advocacy showed how one person’s experience of technology-facilitated abuse can become a powerful force for legislative, educational, and cultural change.',
@@ -608,13 +611,25 @@ details.idxrow,.hobby-row{border-bottom:none;}
           ] },
         { year:'—', title:'JobsFirstNYC &amp; the NYC Bar Association', body:[
             'Spoke about the lack of representation in tech, how the identities and experiences of builders shape the algorithms and products they create, and how young people entering the workforce can push for more inclusive, responsible systems.'
-          ] },
+          ],
+          photos:[
+            {src:'photos/jobsfirst-podium.jpg', alt:'Vidya speaking at a JobsFirstNYC podium titled Adapting to the Age of AI', caption:'JobsFirstNYC, Adapting to the Age of AI'},
+            {src:'photos/jobsfirst-talk.jpg', alt:'Vidya presenting Centering Youth Voices in the Fight for Algorithmic Justice at the New York City Bar', caption:'Presenting at the New York City Bar'}
+          ]
+        },
         { year:'—', title:'Museum of Science, Boston', body:[
             'A talk connected to my work in AI education, digital safety, emerging tech, and youth advocacy.'
           ] },
         { year:'—', title:'Encode India Program', body:[
             'Workshops and institutional engagement introducing engineering students and educators to algorithmic bias, responsible AI, technology governance, and the responsibility engineers carry beyond technical performance. The broader program reached hundreds of engineering students.'
-          ] }
+          ],
+          photos:[
+            {src:'photos/encode-india-talk.jpg', alt:'Vidya presenting Behind the Scenes of AI to a college audience in India', caption:'Talking about the behind the scenes of AI'},
+            {src:'photos/encode-india-audience.jpg', alt:'A large audience of college students in a lecture hall in India', caption:'Hundreds of students in the audience'},
+            {src:'photos/encode-india-students.jpg', alt:'Selfie of Vidya with a group of engineering students after a workshop', caption:'With students after a workshop'},
+            {src:'photos/encode-india-iitm.jpg', alt:'Vidya outside the Indian Institute of Technology Madras', caption:'IIT Madras'}
+          ]
+        }
       ]
     },
     { year:'2020–21', title:'GirlCon', body:[
@@ -927,6 +942,19 @@ details.idxrow,.hobby-row{border-bottom:none;}
     return row;
   }
 
+  function renderPhotos(photos){
+    var ph = el('div','tl-photos');
+    photos.forEach(function(f){
+      var fig = el('figure','');
+      var img = document.createElement('img');
+      img.src = f.src; img.alt = f.alt; img.loading = 'lazy';
+      fig.appendChild(img);
+      if(f.caption){ fig.appendChild(el('figcaption','', f.caption)); }
+      ph.appendChild(fig);
+    });
+    return ph;
+  }
+
   function renderTimelineBranchItem(item, host){
     var row = el('div','branch-item');
     var head = el('div','branch-item-head');
@@ -944,6 +972,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
       card.appendChild(meta);
       row.appendChild(card);
     }
+    if(item.photos){ row.appendChild(renderPhotos(item.photos)); }
     if(item.links){ row.appendChild(renderLinkIcons(item.links)); }
     if(item.placeholder){ row.appendChild(el('div','tl-placeholder', item.placeholder)); }
     host.appendChild(row);
@@ -976,18 +1005,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
         card.appendChild(meta);
         innerIn.appendChild(card);
       }
-      if(item.photos){
-        var ph = el('div','tl-photos');
-        item.photos.forEach(function(f){
-          var fig = el('figure','');
-          var img = document.createElement('img');
-          img.src = f.src; img.alt = f.alt; img.loading = 'lazy';
-          fig.appendChild(img);
-          if(f.caption){ fig.appendChild(el('figcaption','', f.caption)); }
-          ph.appendChild(fig);
-        });
-        innerIn.appendChild(ph);
-      }
+      if(item.photos){ innerIn.appendChild(renderPhotos(item.photos)); }
       if(item.links){ innerIn.appendChild(renderLinkIcons(item.links)); }
       if(item.placeholder){ innerIn.appendChild(el('div','tl-placeholder', item.placeholder)); }
       if(item.branch){
