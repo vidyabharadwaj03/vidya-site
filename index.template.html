@@ -347,6 +347,16 @@ dialog.detail[open]{animation:dlg-in .3s var(--ease);}
 .detail-inner{margin-top:22px;}
 .detail-inner > p{color:var(--text); line-height:1.65; max-width:60ch;}
 html.modal-open{overflow:hidden;}
+.hero-grid{display:grid; grid-template-columns:minmax(0,1fr) 270px; gap:clamp(28px,5vw,56px); align-items:center;}
+.hero-grid h1{font-size:clamp(2.7rem,5.6vw,4.4rem); white-space:nowrap;}
+.hero-photo{margin:0; border-radius:30px; overflow:hidden; aspect-ratio:4/5; box-shadow:0 26px 50px -30px rgba(33,30,27,.55); transform:rotate(2deg); transition:transform .4s var(--ease);}
+.hero-photo:hover{transform:rotate(0);}
+.hero-photo img{display:block; width:100%; height:100%; object-fit:cover; object-position:center 20%;}
+@media (max-width:760px){
+  .hero-grid{grid-template-columns:1fr;}
+  .hero-photo{width:min(240px,70%); order:2;}
+}
+@media (prefers-reduced-motion: reduce){ .hero-photo{transition:none;} }
 .soraa-polaroids{display:flex; gap:12px; margin-top:36px;}
 .polaroid{margin:0; width:132px; padding:7px 7px 10px; background:#fff; border-radius:3px; box-shadow:0 8px 22px -12px rgba(33,30,27,.45); transform:rotate(-3deg); transition:transform .35s var(--ease);}
 .polaroid + .polaroid{transform:rotate(2.5deg); margin-top:14px;}
@@ -423,10 +433,13 @@ html.modal-open{overflow:hidden;}
 
   <section class="hero" id="hero">
     <div class="hero-glow" aria-hidden="true"></div>
-    <div class="wrap">
+    <div class="wrap hero-grid">
+     <div class="hero-text">
       <h1>Hi, I&rsquo;m Vidya!</h1>
       <p class="lede">I&rsquo;m a software engineer, founder, and technology&#8209;policy advocate who loves building things that bring people together.</p>
       <p class="lede">Based in San Francisco.</p>
+     </div>
+     <figure class="hero-photo"><img src="photos/hero-golden-gate.jpg" alt="Vidya smiling in front of the Golden Gate Bridge" width="768" height="1024" fetchpriority="high"></figure>
     </div>
   </section>
 
