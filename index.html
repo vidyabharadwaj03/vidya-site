@@ -156,7 +156,9 @@ details[open] > .idx-body{grid-template-rows:1fr;}
 .li-card .li-label{font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent);}
 .li-card p{margin-top:8px; color:var(--text-muted); font-size:.92rem; line-height:1.55;}
 .li-card .li-meta{margin-top:8px; font-family:var(--mono); font-size:.74rem; color:var(--text-faint);}
-.tl-links{display:flex; flex-wrap:wrap; gap:6px 18px; margin-top:14px; font-size:.9rem;}
+.tl-links{display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;}
+.tl-links .icon-link{width:40px; height:40px;}
+.tl-links .icon-link svg{width:18px; height:18px;}
 .tl-placeholder{margin-top:12px; font-size:.83rem; color:var(--text-faint); font-style:italic;}
 
 @media (max-width:640px){
@@ -330,6 +332,8 @@ details.idxrow,.hobby-row{border-bottom:none;}
     <symbol id="ic-github" viewBox="0 0 24 24"><path d="M8.5 8L4.5 12l4 4M15.5 8l4 4-4 4M13.2 5l-2.4 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 12h17M12 3.5c2.4 2.4 3.6 5.2 3.6 8.5s-1.2 6.1-3.6 8.5c-2.4-2.4-3.6-5.2-3.6-8.5S9.6 5.9 12 3.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
     <symbol id="ic-instagram" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3.8" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="7" r="1.1" fill="currentColor"/></symbol>
+    <symbol id="ic-article" viewBox="0 0 24 24"><path d="M6 3.5h9l3.5 3.5v13.5H6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15 3.5V7h3.5M9 12h6M9 15.5h6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ic-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
     <symbol id="ic-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
     <symbol id="ic-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
   </defs>
@@ -551,8 +555,8 @@ details.idxrow,.hobby-row{border-bottom:none;}
         'I taught AI principles, responsible tech, and digital safety, along with broader professional development, and shared lessons from founding RepuWhiz. Many of the students didn&rsquo;t speak English, so I ran sessions in Tamil, which turned out to be the best way to get everyone talking.'
       ],
       links:[
-        {label:'puthri.org ↗', href:'https://www.puthri.org'},
-        {label:'Instagram ↗', href:'https://www.instagram.com/project_puthri/'}
+        {label:'puthri.org', href:'https://www.puthri.org'},
+        {label:'Instagram', href:'https://www.instagram.com/avtarhumancapitaltrust/'}
       ]
     },
     { year:'2025', title:'RepuWhiz', body:[
@@ -560,12 +564,12 @@ details.idxrow,.hobby-row{border-bottom:none;}
         'Recognition: Grainger Engineering Innovation Prize ($5,000), Third Place at Forge, and a 1517 Fund Medici Grant ($1,000) — plus early interest from PR and media professionals.'
       ],
       linkedin:{ label:'From my LinkedIn', summary:'Announced RepuWhiz and its private beta, tied it to the newly signed TAKE IT DOWN Act, and put out a call for co-founders in AI research, PR, or enterprise sales.', date:'2025', url:'https://www.linkedin.com/posts/vidyab03_repuwhiz-activity-7331015724393562112-egth' },
-      links:[ {label:'repuwhiz.com ↗', href:'https://repuwhiz.com'} ]
+      links:[ {label:'repuwhiz.com', href:'https://repuwhiz.com'} ]
     },
     { year:'2021–2024', title:'Encode Justice', body:[
         'From there, my work expanded into AI governance, digital safety, responsible tech, and youth participation in policymaking through Encode Justice — in education and events leadership. That meant AI-policy education, deepfake awareness, algorithmic bias, workshops, speaking engagements, and a lot of conversations with policymakers and researchers.'
       ],
-      links:[ {label:'encodeai.org ↗', href:'https://encodeai.org'} ],
+      links:[ {label:'encodeai.org', href:'https://encodeai.org'} ],
       branch:[
         { year:'Nov 2024', title:'Empowering Voices Summit, Washington D.C.', body:[
             'I helped organize and run this summit on non-consensual deepfake imagery, youth safety, digital dignity, technology-facilitated abuse, and the legal, educational, and platform responses needed. It brought together advocates, policymakers, civil-society experts, educators, and tech representatives — including Francesca Mani, Senator Dick Durbin, Senator Ted Cruz, Senator Amy Klobuchar, Mary Anne Franks, Yiota Souras, Omny Miranda Martone, Stefan Turkheimer, and representatives from the Kent School and Snap Inc.'
@@ -589,7 +593,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
         { year:'2021', title:'Featured by Reuters', body:[
             'Reuters featured my work as Encode Justice’s Education Director, teaching thousands of students about algorithmic bias, facial recognition, privacy, misinformation, and digital rights — alongside my work helping young women find pathways into science and tech through GirlCon.'
           ],
-          links:[ {label:'Read the article ↗', href:'https://jp.reuters.com/article/usa-tech-youth-rights-idINL5N2NZ5AD/'} ]
+          links:[ {label:'Read the article', href:'https://jp.reuters.com/article/usa-tech-youth-rights-idINL5N2NZ5AD/'} ]
         },
         { year:'—', title:'Brooklyn Technical High School', body:[
             'Led interactive workshops helping high-schoolers understand how AI works, how bias enters technical systems, and how young people can participate in decisions about emerging technology.'
@@ -610,10 +614,10 @@ details.idxrow,.hobby-row{border-bottom:none;}
         'I now serve on GirlCon’s Board of Directors and still support the org and its student leaders.'
       ],
       links:[
-        {label:'Lifewire feature ↗', href:'https://www.lifewire.com/how-girlcon-fuels-students-interests-in-tech-5191109'},
-        {label:'Plan International USA feature ↗', href:'https://www.planusa.org/blog/in-her-own-words-cracking-the-code-for-equality-in-ai-1937/'},
-        {label:'PR Newswire feature ↗', href:'https://www.prnewswire.com/news-releases/fourth-annual-girlcon-conference-aims-to-empower-young-women-in-stem-301292051.html'},
-        {label:'Podcast interview ↗', href:'https://podcasts.apple.com/dk/podcast/28-empowering-womxn-with-vidya-bharadwaj-and/id1530849370?i=1000538781265&l=da'}
+        {label:'Lifewire feature', href:'https://www.lifewire.com/how-girlcon-fuels-students-interests-in-tech-5191109'},
+        {label:'Plan International USA feature', href:'https://www.planusa.org/blog/in-her-own-words-cracking-the-code-for-equality-in-ai-1937/'},
+        {label:'PR Newswire feature', href:'https://www.prnewswire.com/news-releases/fourth-annual-girlcon-conference-aims-to-empower-young-women-in-stem-301292051.html'},
+        {label:'Podcast interview', href:'https://podcasts.apple.com/dk/podcast/28-empowering-womxn-with-vidya-bharadwaj-and/id1530849370?i=1000538781265&l=da'}
       ]
     }
   ];
@@ -895,6 +899,26 @@ details.idxrow,.hobby-row{border-bottom:none;}
     all.forEach(function(p, i){ renderProjRow(p, i + 1, host); });
   }
 
+  function linkIconId(l){
+    var h = l.href;
+    if(h.indexOf('instagram.com') > -1) return 'ic-instagram';
+    if(h.indexOf('linkedin.com') > -1) return 'ic-linkedin';
+    if(h.indexOf('podcasts.apple.com') > -1) return 'ic-mic';
+    if(/puthri\.org|repuwhiz\.com|encodeai\.org|joinsoraa\.com/.test(h)) return 'ic-globe';
+    return 'ic-article';
+  }
+  function renderLinkIcons(links){
+    var row = el('div','tl-links');
+    links.forEach(function(l){
+      var a = document.createElement('a');
+      a.className = 'icon-link'; a.href = l.href; a.target = '_blank'; a.rel = 'noopener';
+      a.setAttribute('aria-label', l.label); a.title = l.label;
+      a.innerHTML = '<svg><use href="#' + linkIconId(l) + '"/></svg>';
+      row.appendChild(a);
+    });
+    return row;
+  }
+
   function renderTimelineBranchItem(item, host){
     var row = el('div','branch-item');
     var head = el('div','branch-item-head');
@@ -912,14 +936,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
       card.appendChild(meta);
       row.appendChild(card);
     }
-    if(item.links){
-      var linksRow = el('div','tl-links');
-      item.links.forEach(function(l){
-        var a = document.createElement('a'); a.href = l.href; a.target='_blank'; a.rel='noopener'; a.textContent = l.label;
-        linksRow.appendChild(a);
-      });
-      row.appendChild(linksRow);
-    }
+    if(item.links){ row.appendChild(renderLinkIcons(item.links)); }
     if(item.placeholder){ row.appendChild(el('div','tl-placeholder', item.placeholder)); }
     host.appendChild(row);
   }
@@ -951,14 +968,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
         card.appendChild(meta);
         innerIn.appendChild(card);
       }
-      if(item.links){
-        var linksRow = el('div','tl-links');
-        item.links.forEach(function(l){
-          var a = document.createElement('a'); a.href = l.href; a.target='_blank'; a.rel='noopener'; a.textContent = l.label;
-          linksRow.appendChild(a);
-        });
-        innerIn.appendChild(linksRow);
-      }
+      if(item.links){ innerIn.appendChild(renderLinkIcons(item.links)); }
       if(item.placeholder){ innerIn.appendChild(el('div','tl-placeholder', item.placeholder)); }
       if(item.branch){
         var branchHost = el('div','branch');
