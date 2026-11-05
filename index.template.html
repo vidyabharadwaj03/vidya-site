@@ -299,6 +299,10 @@ details.idxrow,.hobby-row{border-bottom:none;}
 .branch{border-top:none;}
 .branch-item{border-bottom:none; border-left:none;}
 .media-card .quote{border-top:none; padding-top:0;}
+.soraa-name{font-size:clamp(2.6rem,6vw,4.2rem); font-weight:500; line-height:1.05; margin-top:10px;}
+.soraa-lede{font-family:var(--display); font-size:clamp(1.3rem,2.6vw,1.7rem); line-height:1.35; max-width:30em; margin-top:20px;}
+.soraa-detail{color:var(--text-muted); max-width:38em; margin-top:20px; line-height:1.7;}
+.soraa .idx-tags{margin-top:24px;}
 @media (max-width:640px){
   details.idxrow summary{grid-template-columns:1fr; grid-template-areas:"title" "over" "meta"; padding-right:38px;}
   .idx-body-inner .in{padding-left:14px;}
@@ -333,6 +337,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
     <a class="mark" href="#top">Vidya Bharadwaj</a>
     <div class="nav-right">
       <nav class="links" id="navlinks">
+        <a href="#soraa"><span class="idx">00</span>Soraa</a>
         <a href="#projects"><span class="idx">01</span>Projects</a>
         <a href="#activism"><span class="idx">02</span>Activism</a>
         <a href="#media"><span class="idx">03</span>Media</a>
@@ -359,6 +364,16 @@ details.idxrow,.hobby-row{border-bottom:none;}
     </div>
   </section>
 
+  <section id="soraa">
+    <div class="wrap">
+      <div class="reveal">
+        <span class="mono-label">Currently building</span>
+        <h2 class="soraa-name">Soraa</h2>
+        <div id="soraa-body"></div>
+      </div>
+    </div>
+  </section>
+
   <section id="projects" class="has-blob">
     <div class="float-blob blob-tl" aria-hidden="true"></div>
     <div class="wrap">
@@ -366,7 +381,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
         <span class="num">01</span>
         <div class="head-text">
           <span class="mono-label">Projects</span>
-          <h2 style="margin-top:6px;">What I&rsquo;m building, and what I&rsquo;ve built.</h2>
+          <h2 style="margin-top:6px;">What I&rsquo;ve built.</h2>
         </div>
       </div>
       <div class="idxlist" id="projlist"></div>
@@ -479,7 +494,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
     name:'Soraa', date:'current',
     overview:'An AI-powered platform that matches brands and creators on real fit, not just follower counts.',
     tags:['Next.js','TypeScript','AI Matching','Marketplace','Product Strategy','User Research'],
-    detail:'Instead of relying only on follower counts, spreadsheets, and manual outreach, Soraa looks at campaign goals, audience, content style, location, and overall fit. I&rsquo;ve worked across product strategy, engineering, user research, brand and creator onboarding, partnership operations, and early customer development. <a href="https://joinsoraa.com/" target="_blank" rel="noopener">joinsoraa.com &#8599;</a>' };
+    detail:'Instead of relying only on follower counts, spreadsheets, and manual outreach, Soraa looks at campaign goals, audience, content style, location, and overall fit. I&rsquo;ve worked across product strategy, engineering, user research, brand and creator onboarding, partnership operations, and early customer development. <a href="https://joinsoraa.com/" target="_blank" rel="noopener">joinsoraa.com &#8599;</a> &nbsp;&middot;&nbsp; <a href="https://www.instagram.com/joinsoraa" target="_blank" rel="noopener">@joinsoraa on Instagram &#8599;</a>' };
 
   var DLAB_PROJECT = {
     name:'Disruption Lab', date:'2022 – 2025',
@@ -584,17 +599,13 @@ details.idxrow,.hobby-row{border-bottom:none;}
           ], placeholder:'More info coming soon.' }
       ]
     },
-    { year:'2022', title:'Plan International USA', body:[
-        'Featured in “In Her Own Words: Cracking the Code for Equality in AI” — on equality, bias, representation, and why girls and young people from historically excluded communities need a real role in building and governing AI.'
-      ],
-      links:[ {label:'Read the feature ↗', href:'https://www.planusa.org/blog/in-her-own-words-cracking-the-code-for-equality-in-ai-1937/'} ]
-    },
     { year:'2020–21', title:'GirlCon', body:[
         'I first got into tech activism through GirlCon, a student-run international conference helping girls and gender-diverse students explore technology. I served in senior leadership and Co-Director roles — overseeing programming, partnerships, sponsors, and a team of 100+ students, for a conference that reached hundreds of attendees worldwide.',
         'I now serve on GirlCon’s Board of Directors and still support the org and its student leaders.'
       ],
       links:[
         {label:'Lifewire feature ↗', href:'https://www.lifewire.com/how-girlcon-fuels-students-interests-in-tech-5191109'},
+        {label:'Plan International USA feature ↗', href:'https://www.planusa.org/blog/in-her-own-words-cracking-the-code-for-equality-in-ai-1937/'},
         {label:'PR Newswire feature ↗', href:'https://www.prnewswire.com/news-releases/fourth-annual-girlcon-conference-aims-to-empower-young-women-in-stem-301292051.html'},
         {label:'Podcast interview ↗', href:'https://podcasts.apple.com/dk/podcast/28-empowering-womxn-with-vidya-bharadwaj-and/id1530849370?i=1000538781265&l=da'}
       ]
@@ -854,9 +865,20 @@ details.idxrow,.hobby-row{border-bottom:none;}
     hostList.appendChild(d);
   }
 
+  function renderSoraa(){
+    var host = document.getElementById('soraa-body');
+    if(!host) return;
+    var p = CURRENT_PROJECT;
+    host.appendChild(el('p','soraa-lede', p.overview));
+    host.appendChild(el('p','soraa-detail', p.detail));
+    var tags = el('div','idx-tags');
+    (p.tags||[]).forEach(function(t){ tags.appendChild(el('span','', t)); });
+    host.appendChild(tags);
+  }
+
   function renderProjects(){
     var host = document.getElementById('projlist');
-    var all = [CURRENT_PROJECT, DLAB_PROJECT].concat(PREVIOUS_PROJECTS);
+    var all = [DLAB_PROJECT].concat(PREVIOUS_PROJECTS);
     all.forEach(function(p, i){ renderProjRow(p, i + 1, host); });
   }
 
@@ -1011,6 +1033,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
     });
   }
 
+  renderSoraa();
   renderProjects();
   renderTimeline();
   renderMedia();
