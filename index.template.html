@@ -167,6 +167,8 @@ details[open] > .idx-body{grid-template-rows:1fr;}
 .tl-photos::-webkit-scrollbar{display:none;}
 .tl-photos.still{-webkit-mask-image:none; mask-image:none;}
 .tl-photos-track{display:flex; gap:14px; width:max-content;}
+.tl-gallery.big .tl-photos img{height:min(420px,60vh);}
+.tl-gallery.big .tl-photos{overflow-x:auto;}
 .gal-btn{position:absolute; top:50%; transform:translateY(-50%); width:38px; height:38px; border-radius:50%; border:none; background:rgba(255,255,255,.92); color:var(--text); font-size:1.5rem; line-height:1; padding:0 0 3px; cursor:pointer; box-shadow:0 6px 18px -8px rgba(33,30,27,.55); opacity:0; transition:opacity .25s var(--ease), background .2s var(--ease), color .2s var(--ease); z-index:3;}
 .gal-prev{left:8px;} .gal-next{right:8px;}
 .tl-gallery:hover .gal-btn, .gal-btn:focus-visible{opacity:1;}
@@ -691,7 +693,7 @@ html.modal-open{overflow:hidden;}
           'Won the Grainger Engineering Innovation Prize ($5,000), Third Place at Forge, and a 1517 Fund Medici Grant ($1,000)'
         ]
       ],
-      photosStill:true,
+      photosStill:true, photosBig:true,
       photos:[
         {src:'photos/repuwhiz-talk.jpg', alt:'Vidya pitching RepuWhiz on stage at the Technology Entrepreneur Center, University of Illinois', caption:'Pitching RepuWhiz at the Technology Entrepreneur Center'},
         {src:'photos/repuwhiz-award.jpg', alt:'Vidya holding a $5,000 Grainger Foundation Prize check with family at the Cozad New Venture Challenge', caption:'Grainger Foundation Prize, Cozad New Venture Challenge'}
@@ -1191,8 +1193,8 @@ html.modal-open{overflow:hidden;}
   // It drifts slowly on its own, speeds toward whichever edge the cursor nears,
   // and has arrow buttons (always visible on touch). The set is repeated so a
   // jump of one half-width is invisible, which makes the loop endless.
-  function renderPhotos(photos, still){
-    var wrap = el('div','tl-gallery');
+  function renderPhotos(photos, still, big){
+    var wrap = el('div','tl-gallery' + (big ? ' big' : ''));
     var view = el('div','tl-photos');
     var track = el('div','tl-photos-track');
     wrap.appendChild(view);
@@ -1293,7 +1295,7 @@ html.modal-open{overflow:hidden;}
         onOpen:function(){
           openDetail(item.title, item.year, function(inner){
             renderBody(item.body, inner);
-            if(item.photos){ inner.appendChild(renderPhotos(item.photos, item.photosStill)); }
+            if(item.photos){ inner.appendChild(renderPhotos(item.photos, item.photosStill, item.photosBig)); }
             if(item.links){ inner.appendChild(renderLinkIcons(item.links)); }
             if(item.branch){
               if(item.branchLabel){ inner.appendChild(el('span','mono-label branch-label', item.branchLabel)); }
@@ -1341,7 +1343,7 @@ html.modal-open{overflow:hidden;}
     }
     var projects = [DLAB_PROJECT].concat(PREVIOUS_PROJECTS);
     host.appendChild(big({
-      id:'projects-card', title:'What I\u2019ve built', count:projects.length + ' projects',
+      id:'projects-card', title:'What I\u2019ve built', count:'always tinkering',
       blurb:'Engineering, research, and products, from class projects to Soraa.',
       cover:null,
       onOpen:function(){ listView('What I\u2019ve built', projects, projectCard); }
