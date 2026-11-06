@@ -386,6 +386,11 @@ dialog.detail[open]{animation:dlg-in .3s var(--ease);}
 html.modal-open{overflow:hidden;}
 .hero-grid{display:grid; grid-template-columns:minmax(0,1fr) 270px; gap:clamp(28px,5vw,56px); align-items:center;}
 .hero-grid h1{font-size:clamp(2.7rem,5.6vw,4.4rem); white-space:nowrap;}
+.loc-chip{display:inline-flex; align-items:center; gap:7px; margin-top:20px; padding:7px 14px 7px 11px; border-radius:999px; background:var(--blush); color:var(--accent-ink); font-family:var(--mono); font-size:.78rem; letter-spacing:.02em;}
+.loc-chip svg{width:16px; height:16px; flex:none;}
+.hero-links{margin-top:22px; gap:12px;}
+.hero-links .icon-link{width:44px; height:44px;}
+.hero-links .icon-link svg{width:20px; height:20px;}
 .hero-photo{margin:0; border-radius:30px; overflow:hidden; aspect-ratio:4/5; box-shadow:0 26px 50px -30px rgba(33,30,27,.55); transform:rotate(2deg); transition:transform .4s var(--ease);}
 .hero-photo:hover{transform:rotate(0);}
 .hero-photo img{display:block; width:100%; height:100%; object-fit:cover; object-position:center 20%;}
@@ -439,6 +444,7 @@ html.modal-open{overflow:hidden;}
     <symbol id="ic-instagram" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3.8" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="7" r="1.1" fill="currentColor"/></symbol>
     <symbol id="ic-article" viewBox="0 0 24 24"><path d="M6 3.5h9l3.5 3.5v13.5H6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15 3.5V7h3.5M9 12h6M9 15.5h6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="ic-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="ic-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.4" fill="currentColor"/></symbol>
     <symbol id="ic-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
     <symbol id="ic-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
   </defs>
@@ -471,9 +477,10 @@ html.modal-open{overflow:hidden;}
     <div class="hero-glow" aria-hidden="true"></div>
     <div class="wrap hero-grid">
      <div class="hero-text">
-      <h1>Hi, I&rsquo;m Vidya!</h1>
-      <p class="lede">I&rsquo;m a software engineer, founder, and technology&#8209;policy advocate who loves building things that bring people together.</p>
-      <p class="lede">Based in San Francisco.</p>
+      <h1>hi, i&rsquo;m vidya!</h1>
+      <p class="lede">i&rsquo;m a software engineer, founder, and technology&#8209;policy advocate who loves building things that bring people together.</p>
+      <span class="loc-chip"><svg aria-hidden="true"><use href="#ic-pin"/></svg>san francisco, ca</span>
+      <div class="icon-links hero-links" id="hero-links"></div>
      </div>
      <figure class="hero-photo"><img src="photos/hero-golden-gate.jpg" alt="Vidya smiling in front of the Golden Gate Bridge" width="768" height="1024" fetchpriority="high"></figure>
     </div>
@@ -1001,7 +1008,8 @@ html.modal-open{overflow:hidden;}
   var SOCIAL_LINKS = [
     {short:'Email', href:'mailto:findvidyaonline@gmail.com', icon:'ic-mail'},
     {short:'LinkedIn', href:'https://www.linkedin.com/in/vidyab03/', icon:'ic-linkedin'},
-    {short:'GitHub', href:'https://github.com/vidyabharadwaj03', icon:'ic-github'}
+    {short:'GitHub', href:'https://github.com/vidyabharadwaj03', icon:'ic-github'},
+    {short:'Instagram', href:'https://www.instagram.com/vidya_bharadwaj03/', icon:'ic-instagram'}
   ];
 
   /* ============ RENDER HELPERS ============ */
@@ -1376,7 +1384,9 @@ html.modal-open{overflow:hidden;}
   }
 
   function renderContactLinks(){
-    var host = document.getElementById('contact-links');
+    ['contact-links','hero-links'].forEach(function(id){
+    var host = document.getElementById(id);
+    if(!host) return;
     SOCIAL_LINKS.forEach(function(s){
       var a = document.createElement('a');
       a.className = 'icon-link'; a.href = s.href;
@@ -1384,6 +1394,7 @@ html.modal-open{overflow:hidden;}
       if(s.href.indexOf('mailto:') !== 0){ a.target = '_blank'; a.rel = 'noopener'; }
       a.innerHTML = '<svg><use href="#' + s.icon + '"/></svg>';
       host.appendChild(a);
+    });
     });
   }
 
