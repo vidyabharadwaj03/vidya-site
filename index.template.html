@@ -677,7 +677,7 @@ html.modal-open{overflow:hidden;}
         {label:'Instagram', href:'https://www.instagram.com/avtarhumancapitaltrust/'}
       ]
     },
-    { year:'2025', title:'RepuWhiz', cover:'photos/repuwhiz-cover.jpg', blurb:'Deepfake detection for PR teams. Grainger Prize winner.', body:[
+    { year:'2025', title:'RepuWhiz', cover:'photos/repuwhiz-award.jpg', coverPos:'center 58%', blurb:'Deepfake detection for PR teams. Grainger Prize winner.', body:[
         [
           'Deepfake-detection platform for PR and communications teams',
           'Spots suspicious media, sends alerts, preserves evidence, and supports takedowns',
@@ -1063,6 +1063,7 @@ html.modal-open{overflow:hidden;}
     if(o.cover){
       var im = document.createElement('img');
       im.className = 'card-cover'; im.src = o.cover; im.alt = ''; im.loading = 'lazy';
+      if(o.coverPos){ im.style.objectPosition = o.coverPos; }
       b.appendChild(im);
     }
     var t = el('div','card-text');
@@ -1280,7 +1281,7 @@ html.modal-open{overflow:hidden;}
   function timelineCard(item, back){
     return makeCard({
         title:item.title, meta:item.year, blurb:item.blurb,
-        cover:item.cover || ((item.photos && item.photos[0]) ? item.photos[0].src : null),
+        cover:item.cover || ((item.photos && item.photos[0]) ? item.photos[0].src : null), coverPos:item.coverPos,
         onOpen:function(){
           openDetail(item.title, item.year, function(inner){
             renderBody(item.body, inner);
