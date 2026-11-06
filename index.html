@@ -339,9 +339,8 @@ details.idxrow,.hobby-row{border-bottom:none;}
   #timeline .card-text{padding:24px 26px 26px;}
   #projlist .card-text{padding:26px;}
 }
-.big-cards{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; margin-top:44px;}
-@media (max-width:760px){ .big-cards{grid-template-columns:1fr;} }
-.big-card{position:relative; display:flex; flex-direction:column; justify-content:flex-end; text-align:left; font:inherit; color:inherit; min-height:420px; padding:0; border:none; border-radius:28px; overflow:hidden; cursor:pointer; background:var(--bg-raised); isolation:isolate; transition:transform .4s var(--ease), box-shadow .4s var(--ease);}
+.big-cards{display:grid; grid-template-columns:1fr; gap:22px;}
+.big-card{position:relative; display:flex; flex-direction:column; justify-content:flex-end; text-align:left; font:inherit; color:inherit; min-height:240px; padding:0; border:none; border-radius:28px; overflow:hidden; cursor:pointer; background:var(--bg-raised); isolation:isolate; transition:transform .4s var(--ease), box-shadow .4s var(--ease);}
 .big-card:hover{transform:translateY(-5px); box-shadow:0 26px 50px -30px rgba(33,30,27,.6);}
 .big-card:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
 .big-card.plain{background:linear-gradient(140deg,#C85A87 0%,#8F2F56 100%);}
@@ -352,7 +351,7 @@ details.idxrow,.hobby-row{border-bottom:none;}
 .big-text{padding:32px 34px 34px; color:#fff;}
 .big-text .card-meta{color:rgba(255,255,255,.75);}
 .big-text h3{font-family:var(--display); font-weight:500; font-size:clamp(1.9rem,3.6vw,2.6rem); line-height:1.1; color:#fff; margin-top:6px;}
-.big-text p{margin-top:10px; font-size:1rem; line-height:1.5; color:rgba(255,255,255,.88); max-width:30ch;}
+.big-text p{margin-top:10px; font-size:1rem; line-height:1.5; color:rgba(255,255,255,.88); max-width:44ch;}
 .big-text .card-go{display:block; margin-top:18px; padding-top:0; color:#fff;}
 .cards-inner{margin-top:6px; grid-template-columns:1fr;}
 .cards-inner .card.reveal{opacity:1; transform:none;}
@@ -451,7 +450,8 @@ html.modal-open{overflow:hidden;}
     <div class="nav-right">
       <nav class="links" id="navlinks">
         <a href="#soraa"><span class="idx">00</span>Soraa</a>
-        <a href="#work"><span class="idx">01</span>Work</a>
+        <a href="#activism"><span class="idx">01</span>Activism</a>
+        <a href="#projects"><span class="idx">02</span>Projects</a>
         <a href="#media"><span class="idx">03</span>Media</a>
         <a href="#beyond"><span class="idx">04</span>Beyond</a>
         <a href="#travel"><span class="idx">05</span>Travel</a>
@@ -489,14 +489,20 @@ html.modal-open{overflow:hidden;}
     </div>
   </section>
 
-  <section id="work">
+  <section id="activism">
     <div class="wrap">
       <div class="section-head reveal">
         <div class="head-text">
-          <span class="mono-label">Work</span>
-          <h2 style="margin-top:6px;">What I&rsquo;ve built, and what I advocate for.</h2>
+          <span class="mono-label">Activism</span>
+          <h2 style="margin-top:6px;">Impact &amp; advocacy.</h2>
         </div>
       </div>
+      <div class="cards" id="timeline"></div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
       <div class="big-cards" id="bigcards"></div>
     </div>
   </section>
@@ -1274,6 +1280,7 @@ html.modal-open{overflow:hidden;}
   function timelineCard(item, back){
     return makeCard({
         title:item.title, meta:item.year, blurb:item.blurb,
+        cover:item.cover || ((item.photos && item.photos[0]) ? item.photos[0].src : null),
         onOpen:function(){
           openDetail(item.title, item.year, function(inner){
             renderBody(item.body, inner);
@@ -1301,6 +1308,12 @@ html.modal-open{overflow:hidden;}
     show();
   }
 
+  function renderTimeline(){
+    var host = document.getElementById('timeline');
+    if(!host) return;
+    TIMELINE.forEach(function(item){ host.appendChild(timelineCard(item)); });
+  }
+
   function renderBigCards(){
     var host = document.getElementById('bigcards');
     if(!host) return;
@@ -1319,16 +1332,10 @@ html.modal-open{overflow:hidden;}
     }
     var projects = [DLAB_PROJECT].concat(PREVIOUS_PROJECTS);
     host.appendChild(big({
-      id:'projects', title:'What I\u2019ve built', count:projects.length + ' projects',
+      id:'projects-card', title:'What I\u2019ve built', count:projects.length + ' projects',
       blurb:'Engineering, research, and products, from class projects to Soraa.',
       cover:null,
       onOpen:function(){ listView('What I\u2019ve built', projects, projectCard); }
-    }));
-    host.appendChild(big({
-      id:'activism', title:'Activism', count:TIMELINE.length + ' stories',
-      blurb:'Tech policy, education, and impact, from teaching kids to code to arguing about AI in D.C.',
-      cover:'photos/puthri-dscet-talk.jpg',
-      onOpen:function(){ listView('Activism', TIMELINE, timelineCard); }
     }));
   }
 
@@ -1409,6 +1416,7 @@ html.modal-open{overflow:hidden;}
   }
 
   renderSoraa();
+  renderTimeline();
   renderBigCards();
   renderMedia();
   renderHobbies();
