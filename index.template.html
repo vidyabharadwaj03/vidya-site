@@ -329,16 +329,16 @@ details.idxrow,.hobby-row{border-bottom:none;}
 .media-card .quote{border-top:none; padding-top:0;}
 .cards .card-title{font-size:1.65rem;}
 #projlist .card-text{min-height:220px; padding:30px 32px 32px;}
-#timeline{grid-template-columns:1fr;}
-#timeline .card{flex-direction:row; min-height:280px;}
-#timeline .card-cover{width:46%; flex:none; aspect-ratio:auto; height:auto; object-fit:cover;}
-#timeline .card-text{padding:34px 36px; justify-content:center;}
-@media (max-width:700px){
-  #timeline .card{flex-direction:column; min-height:0;}
-  #timeline .card-cover{width:100%; aspect-ratio:16/10;}
-  #timeline .card-text{padding:24px 26px 26px;}
-  #projlist .card-text{padding:26px;}
-}
+#timeline{grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px;}
+#timeline .card{flex-direction:column; border-radius:18px;}
+#timeline .card-cover{width:100%; aspect-ratio:4/5; height:auto; object-fit:cover; object-position:center 25%;}
+#timeline .card-text{padding:16px 16px 18px; min-height:0; gap:4px;}
+#timeline .card-title{font-size:1.1rem;}
+#timeline .card-blurb{font-size:.82rem; line-height:1.45;}
+#timeline .card-go{padding-top:10px; font-size:.66rem;}
+@media (max-width:820px){ #timeline{grid-template-columns:repeat(2,minmax(0,1fr));} }
+@media (max-width:420px){ #timeline{grid-template-columns:1fr;} }
+#projlist .card-text{padding:26px;}
 .big-cards{display:grid; grid-template-columns:1fr; gap:22px;}
 .big-card{position:relative; display:flex; flex-direction:column; justify-content:flex-end; text-align:left; font:inherit; color:inherit; min-height:240px; padding:0; border:none; border-radius:28px; overflow:hidden; cursor:pointer; background:var(--bg-raised); isolation:isolate; transition:transform .4s var(--ease), box-shadow .4s var(--ease);}
 .big-card:hover{transform:translateY(-5px); box-shadow:0 26px 50px -30px rgba(33,30,27,.6);}
