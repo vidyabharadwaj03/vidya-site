@@ -38,13 +38,13 @@
 
 /* ============ BASE ============ */
 *{box-sizing:border-box;}
-html{scroll-behavior:smooth; overflow-x:hidden;}
+html{scroll-behavior:smooth; overflow-x:clip;}
 @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
 body{
   margin:0; background:var(--bg); color:var(--text);
   font-family:var(--body); font-size:17px; line-height:1.6;
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
-  overflow-x:hidden;
+  overflow-x:clip;
 }
 h1,h2,h3{font-family:var(--display); font-weight:600; margin:0; text-wrap:balance; color:var(--text);}
 p{margin:0;}
@@ -459,13 +459,8 @@ html.modal-open{overflow:hidden;}
     <a class="mark" href="#top">Vidya Bharadwaj</a>
     <div class="nav-right">
       <nav class="links" id="navlinks">
-        <a href="#soraa"><span class="idx">00</span>Soraa</a>
-        <a href="#activism"><span class="idx">01</span>Activism</a>
-        <a href="#projects"><span class="idx">02</span>Projects</a>
-        <a href="#media"><span class="idx">03</span>Media</a>
-        <a href="#beyond"><span class="idx">04</span>Beyond</a>
-        <a href="#travel"><span class="idx">05</span>Travel</a>
-        <a href="#contact"><span class="idx">06</span>Contact</a>
+        <a href="#soraa" data-spy="soraa activism projects media beyond travel">work</a>
+        <a href="#contact" data-spy="contact">contact</a>
       </nav>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
         <svg class="ic-sun"><use href="#ic-sun"/></svg>
@@ -1450,13 +1445,15 @@ html.modal-open{overflow:hidden;}
   renderContactLinks();
 
   var links = Array.prototype.slice.call(document.querySelectorAll('#navlinks a'));
-  var sections = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  var spyMap = {};
+  links.forEach(function(a){ (a.getAttribute('data-spy') || a.getAttribute('href').slice(1)).split(' ').forEach(function(id){ spyMap[id] = a.getAttribute('href'); }); });
+  var sections = Object.keys(spyMap).map(function(id){ return document.getElementById(id); }).filter(Boolean);
 
   if('IntersectionObserver' in window){
     var navObserver = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
         if(entry.isIntersecting){
-          var id = '#' + entry.target.id;
+          var id = spyMap[entry.target.id];
           links.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href') === id); });
         }
       });
