@@ -162,21 +162,25 @@ details[open] > .idx-body{grid-template-rows:1fr;}
 .tl-bullets li::before{content:''; position:absolute; left:2px; top:.7em; width:5px; height:5px; border-radius:50%; background:var(--accent);}
 .branch-label{display:block; margin-top:26px;}
 .branch-item .tl-bullets li{font-size:.9rem; color:var(--text-muted);}
-.tl-photos{margin-top:20px; overflow:hidden; -webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent); mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);}
+.tl-gallery{position:relative; margin-top:20px;}
+.tl-photos{overflow-x:auto; overflow-y:hidden; scrollbar-width:none; -webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent); mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);}
+.tl-photos::-webkit-scrollbar{display:none;}
 .tl-photos.still{-webkit-mask-image:none; mask-image:none;}
-.tl-photos-track{display:flex; gap:14px; width:max-content; animation:photo-scroll 40s linear infinite;}
-.tl-photos.still .tl-photos-track{animation:none;}
-.tl-photos:hover .tl-photos-track{animation-play-state:paused;}
-@keyframes photo-scroll{ from{transform:translateX(0);} to{transform:translateX(calc(-50% - 7px));} }
+.tl-photos-track{display:flex; gap:14px; width:max-content;}
+.gal-btn{position:absolute; top:50%; transform:translateY(-50%); width:38px; height:38px; border-radius:50%; border:none; background:rgba(255,255,255,.92); color:var(--text); font-size:1.5rem; line-height:1; padding:0 0 3px; cursor:pointer; box-shadow:0 6px 18px -8px rgba(33,30,27,.55); opacity:0; transition:opacity .25s var(--ease), background .2s var(--ease), color .2s var(--ease); z-index:3;}
+.gal-prev{left:8px;} .gal-next{right:8px;}
+.tl-gallery:hover .gal-btn, .gal-btn:focus-visible{opacity:1;}
+.gal-btn:hover{background:var(--accent); color:#fff;}
+@media (hover:none){ .gal-btn{opacity:.9;} }
 .tl-photos figure{margin:0; position:relative; flex:none; border-radius:16px; overflow:hidden;}
 .tl-photos img{display:block; height:240px; width:auto; max-width:none; background:var(--bg-raised);}
 .tl-photos figcaption{position:absolute; left:0; right:0; bottom:0; padding:28px 14px 12px; font-family:var(--mono); font-size:.72rem; line-height:1.4; color:#fff; background:linear-gradient(transparent, rgba(20,14,16,.72)); opacity:0; transform:translateY(6px); transition:opacity .25s var(--ease), transform .25s var(--ease);}
 .tl-photos figure:hover figcaption{opacity:1; transform:none;}
 @media (hover:none){ .tl-photos figcaption{opacity:1; transform:none;} }
 @media (prefers-reduced-motion: reduce){
-  .tl-photos{overflow-x:auto; -webkit-mask-image:none; mask-image:none;}
-  .tl-photos-track{animation:none;}
+  .tl-photos{-webkit-mask-image:none; mask-image:none;}
   .tl-photos figure.dup{display:none;}
+  .gal-btn{transition:none;}
 }
 .tl-links{display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;}
 .tl-links .icon-link{width:40px; height:40px;}
@@ -1168,21 +1172,80 @@ html.modal-open{overflow:hidden;}
     });
   }
 
+  // Galleries: one photo sits still; two or more form a looping, scrollable strip.
+  // It drifts slowly on its own, speeds toward whichever edge the cursor nears,
+  // and has arrow buttons (always visible on touch). The set is repeated so a
+  // jump of one half-width is invisible, which makes the loop endless.
   function renderPhotos(photos, still){
+    var wrap = el('div','tl-gallery');
     var view = el('div','tl-photos');
     var track = el('div','tl-photos-track');
+    wrap.appendChild(view);
+    view.appendChild(track);
     if(still || photos.length < 2){
       photos.forEach(function(f){ track.appendChild(photoFig(f, false)); });
       view.className += ' still';
-    } else {
-      var reps = Math.max(1, Math.ceil(6 / photos.length));
-      for(var r = 0; r < reps; r++){ photos.forEach(function(f){ track.appendChild(photoFig(f, r > 0)); }); }
-      var half = track.children.length;
-      for(var d = 0; d < half; d++){ track.appendChild(photoFig(photos[d % photos.length], true)); }
-      track.style.animationDuration = (half * 6) + 's';
+      return wrap;
     }
-    view.appendChild(track);
-    return view;
+    var reps = Math.max(2, Math.ceil(10 / photos.length));
+    for(var r = 0; r < reps; r++){ photos.forEach(function(f){ track.appendChild(photoFig(f, r > 0)); }); }
+    var half = track.children.length;
+    for(var d = 0; d < half; d++){ track.appendChild(photoFig(photos[d % photos.length], true)); }
+
+    var prev = el('button','gal-btn gal-prev','&#8249;'); prev.type = 'button'; prev.setAttribute('aria-label','Previous photos');
+    var next = el('button','gal-btn gal-next','&#8250;'); next.type = 'button'; next.setAttribute('aria-label','Next photos');
+    wrap.appendChild(prev); wrap.appendChild(next);
+
+    function halfW(){ var c = track.children[half]; return c ? c.offsetLeft : 0; }
+    function wrapLoop(){
+      var h = halfW();
+      if(h < view.clientWidth * 2) return;           // images still loading
+      if(view.scrollLeft >= h * 1.5){ view.scrollLeft -= h; }
+      else if(view.scrollLeft <= h * 0.5){ view.scrollLeft += h; }
+    }
+    var hover = false, vel = 0, pausedUntil = 0, visible = false, raf = 0;
+    function tick(){
+      raf = 0;
+      if(!visible) return;
+      var now = Date.now();
+      var v = vel;
+      if(!v && !hover && !reduceMotion && now > pausedUntil){ v = 0.45; }
+      if(v){ view.scrollLeft += v; }
+      wrapLoop();
+      raf = requestAnimationFrame(tick);
+    }
+    function kick(){ if(!raf && visible){ raf = requestAnimationFrame(tick); } }
+    function step(dir){
+      pausedUntil = Date.now() + 5000;
+      var f = track.querySelector('figure');
+      var w = f ? f.getBoundingClientRect().width + 14 : 220;
+      view.scrollBy({left: dir * w * 1.5, behavior: reduceMotion ? 'auto' : 'smooth'});
+    }
+    prev.addEventListener('click', function(){ step(-1); });
+    next.addEventListener('click', function(){ step(1); });
+    wrap.addEventListener('mouseenter', function(){ hover = true; });
+    wrap.addEventListener('mouseleave', function(){ hover = false; vel = 0; });
+    wrap.addEventListener('mousemove', function(e){
+      var rc = wrap.getBoundingClientRect();
+      var fx = (e.clientX - rc.left) / rc.width;
+      if(reduceMotion){ vel = 0; return; }
+      if(fx > 0.72){ vel = ((fx - 0.72) / 0.28) * 7; }
+      else if(fx < 0.28){ vel = -((0.28 - fx) / 0.28) * 7; }
+      else { vel = 0; }
+    });
+    wrap.addEventListener('touchstart', function(){ pausedUntil = Date.now() + 6000; }, {passive:true});
+    view.addEventListener('wheel', function(){ pausedUntil = Date.now() + 4000; }, {passive:true});
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){
+        visible = es[0].isIntersecting;
+        if(visible){
+          var h = halfW();
+          if(h >= view.clientWidth * 2 && view.scrollLeft < 1){ view.scrollLeft = h; }
+          kick();
+        }
+      }).observe(wrap);
+    }
+    return wrap;
   }
 
   function renderTimelineBranchItem(item, host){
