@@ -1,4 +1,6 @@
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>vidya bharadwaj</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiNCNTQxNkYiLz48dGV4dCB4PSIzMiIgeT0iNDYiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLCBUaW1lcyBOZXcgUm9tYW4sIHNlcmlmIiBmb250LXNpemU9IjM4IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjRkFGN0YzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5WPC90ZXh0Pjwvc3ZnPg==">
 <style>
 /* ============ FONTS ============ */
@@ -341,7 +343,14 @@ details.idxrow,.hobby-row{border-bottom:none;}
 #timeline .card-blurb{font-size:.82rem; line-height:1.45;}
 #timeline .card-go{padding-top:10px; font-size:.66rem;}
 @media (max-width:820px){ #timeline{grid-template-columns:repeat(2,minmax(0,1fr));} }
-@media (max-width:420px){ #timeline{grid-template-columns:1fr;} }
+@media (max-width:560px){
+  #timeline{gap:10px;}
+  #timeline .card-cover{aspect-ratio:1/1;}
+  #timeline .card-text{padding:12px 12px 14px;}
+  #timeline .card-title{font-size:.98rem;}
+  #timeline .card-blurb{font-size:.74rem;}
+  #timeline .card-meta{font-size:.62rem;}
+}
 #projlist .card-text{padding:26px;}
 .big-cards{display:grid; grid-template-columns:1fr; gap:22px;}
 .big-card{position:relative; display:flex; flex-direction:column; justify-content:flex-end; text-align:left; font:inherit; color:inherit; min-height:240px; padding:0; border:none; border-radius:28px; overflow:hidden; cursor:pointer; background:var(--bg-raised); isolation:isolate; transition:transform .4s var(--ease), box-shadow .4s var(--ease);}
@@ -423,6 +432,16 @@ html.modal-open{overflow:hidden;}
 @media (max-width:640px){
   details.idxrow summary{grid-template-columns:1fr; grid-template-areas:"title" "over" "meta"; padding-right:38px;}
   .idx-body-inner .in{padding-left:14px;}
+}
+@media (max-width:640px){
+  .navrow{flex-wrap:nowrap; align-items:center; gap:10px; padding-top:10px; padding-bottom:10px;}
+  .nav-right{width:auto; flex-wrap:nowrap; justify-content:flex-end; gap:10px;}
+  nav.links{width:auto; flex-wrap:nowrap; gap:12px; font-size:.68rem; letter-spacing:.04em;}
+  .mark{font-size:.9rem;}
+  .theme-toggle{width:30px; height:30px;}
+  .hero{padding-top:36px;}
+  .hero-photo{margin:10px auto 0; width:min(250px,78%);}
+  .hero-grid h1{white-space:normal;}
 }
 </style>
 
@@ -1228,14 +1247,18 @@ html.modal-open{overflow:hidden;}
       if(view.scrollLeft >= h * 1.5){ view.scrollLeft -= h; }
       else if(view.scrollLeft <= h * 0.5){ view.scrollLeft += h; }
     }
-    var hover = false, vel = 0, pausedUntil = 0, visible = false, raf = 0;
+    var hover = false, vel = 0, pausedUntil = 0, visible = false, raf = 0, pos = 0;
     function tick(){
       raf = 0;
       if(!visible) return;
       var now = Date.now();
       var v = vel;
       if(!v && !hover && !reduceMotion && now > pausedUntil){ v = 0.45; }
-      if(v){ view.scrollLeft += v; }
+      if(v){
+        if(Math.abs(view.scrollLeft - pos) > 2){ pos = view.scrollLeft; }   // user or loop moved it
+        pos += v;
+        view.scrollLeft = pos;
+      }
       wrapLoop();
       raf = requestAnimationFrame(tick);
     }
